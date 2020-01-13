@@ -1,4 +1,4 @@
-import { isFunction, isObject } from "../utils/util";
+import { isFucntionalComp, isFunction } from "../utils/util";
 import { ELEMENT_TYPE, FRAGMENT, PORTAL, CHILDREN_TYPE, SVG } from "./constant";
 
 export function h(tag, data, children) {
@@ -20,9 +20,9 @@ function getVnodeFlagByTag(tag) {
     vnodeFlag = ELEMENT_TYPE.FRAGMENT;
   } else if (tag === PORTAL) {
     vnodeFlag = ELEMENT_TYPE.PORTAL;
-  } else if (isFunction(tag)) {
+  } else if (isFucntionalComp(tag)) {
     vnodeFlag = ELEMENT_TYPE.FUNCTIONAL_COMPONENT;
-  } else if (isObject(tag)) {
+  } else if (isFunction(tag)) {
     vnodeFlag = ELEMENT_TYPE.NORMAL_COMPONENT_ELEMENT;
   } else {
     vnodeFlag = ELEMENT_TYPE.TEXT;
