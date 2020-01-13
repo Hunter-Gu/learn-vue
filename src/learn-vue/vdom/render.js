@@ -13,10 +13,11 @@ export function render(vnode, container) {
 
 function mount(vnode, container) {
   const { vnodeFlag } = vnode;
+
   if (vnodeFlag & (ELEMENT_TYPE.HTML_ELEMENT | ELEMENT_TYPE.SVG_ELEMENT)) {
     mountElement(vnode, container);
   } else if (
-    vnode &
+    vnodeFlag &
     (ELEMENT_TYPE.FUNCTIONAL_COMPONENT | ELEMENT_TYPE.NORMAL_COMPONENT_ELEMENT)
   ) {
     mountComponent(vnode, container);
