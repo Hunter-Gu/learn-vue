@@ -39,7 +39,7 @@ function mountElement(vnode, container) {
     : createElement(tag));
 
   initVnodeData(vnode);
-  _mountChildren(vnode, tag);
+  _mountChildren(vnode, el);
   container.appendChild(el);
 }
 
@@ -59,20 +59,21 @@ function _mountStatefulComponent(vnode, container) {
   const instance = new tag();
 
   instance.vnode = instance.render();
-  mount(instance.vnode, container);
+  mountElement(instance.vnode, container);
   instance.$el = vnode.$el = instance.vnode.$el;
 }
 
 function _mountFunctionalComponent(vnode, container) {
   const { tag } = vnode;
   const $vnode = tag();
-  mount($vnode, container);
+  mountElement($vnode, container);
   vnode.$el = $vnode.$el;
 }
 
 function mountPortal(vnode) {
-  const target = query(vnode.target);
-  mount(vnode, target);
+  const { target: targetTag } = vnode;
+  const target = typeof targetTag === "string" ? query(targetTag) : targetTag;
+  _mountChildren(vnode, target);
 }
 
 function mountFragment(vnode, container) {
@@ -92,5 +93,7 @@ function _mountChildren(vnode, container) {
     mount(children[0], container);
   } else if (childFlag & CHILDREN_TYPE.MULTIPLE_CHILDREN) {
     children.forEach(child => mount(child, container));
+  } else {
+    container.appendChild(createTextNode(""));
   }
 }
