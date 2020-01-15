@@ -30,7 +30,7 @@ export function initVnodeData(vnode) {
 }
 
 function _initClass(el, cls) {
-  el.classname = cls;
+  el.className = cls;
 }
 
 function _initStyle(el, style) {
