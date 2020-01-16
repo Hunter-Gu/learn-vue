@@ -2,6 +2,20 @@ const TAG_OPEN_SYM = "<";
 const TAG_CLOSE_SYM = ">";
 const VALID_KEY = `([^\\s${TAG_OPEN_SYM}${TAG_CLOSE_SYM}]+)`;
 
+const DOCTYPE_EXP = new RegExp(
+  `${TAG_OPEN_SYM}!doctype[^${TAG_CLOSE_SYM}]*${TAG_CLOSE_SYM}`,
+  "i"
+);
+export function extractDoctype(html) {
+  const match = html.match(DOCTYPE_EXP);
+
+  if (match) {
+    html = advance(html, match[0].length);
+  }
+
+  return html;
+}
+
 const START_TAG_OPEN_EXP = new RegExp(`^${TAG_OPEN_SYM}\\s*${VALID_KEY}`);
 export function extractStartTagOpen(html) {
   return html.match(START_TAG_OPEN_EXP);
@@ -32,7 +46,7 @@ const validIdx = idx => idx >= 0;
  * @example
  *  extract<p>not extracted</p> -> extract
  *  extract<extract<p>not extracted</p> -> extract<extract
- *  [TODO]extract</extract<p>not extracted</p> -> extract</extract
+ *  [@todo]extract</extract<p>not extracted</p> -> extract</extract
  */
 const getStartTagIdx = html => html.indexOf(TAG_OPEN_SYM);
 export function extractText(html) {
