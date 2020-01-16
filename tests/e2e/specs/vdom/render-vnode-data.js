@@ -39,5 +39,16 @@ module.exports = {
         this.assert.domPropertyEquals(classname, "value", "clicked");
       })
       .end();
+  },
+  "test render children"(browser) {
+    const classname = ".render-children-container";
+    const childClassName = ".child";
+    browser
+      .url("localhost:8080/example/render-children")
+      .waitForElementPresent(classname, 1000, function() {
+        browser.expect.elements(classname).count.to.equal(3);
+        browser.expect.elements(childClassName).count.to.equal(4);
+        browser.end();
+      });
   }
 };
