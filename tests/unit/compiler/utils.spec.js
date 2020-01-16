@@ -1,0 +1,67 @@
+import {
+  extractStartTagOpen,
+  extractAttribute,
+  extractStartTagClose,
+  extractText
+} from "@/learn-vue/compiler/parser/utils";
+
+test("test extract start tag from html", () => {
+  const tag = "p";
+  const html = `<${tag}>extract start tag from html</${tag}>`;
+  const match = extractStartTagOpen(html);
+
+  expect(match[1]).toBe(tag);
+});
+
+test("test extract single attribute from html", () => {
+  const singleProp = "checked";
+  const singlePropHtml = `${singleProp} name="name" />`;
+  expect(extractAttribute(singlePropHtml)[1]).toBe(singleProp);
+});
+
+test("test extract pair attribute from html", () => {
+  const pairProps = {
+    key: "value",
+    value: "hello world"
+  };
+  const pairPropsHtml = `${pairProps.key} = "${pairProps.value}" />`;
+  const pairPropsMatch = extractAttribute(pairPropsHtml);
+
+  expect(pairPropsMatch[1]).toBe(pairProps.key);
+  expect(pairPropsMatch[3] || pairPropsMatch[4] || pairPropsMatch[5]).toBe(
+    pairProps.value
+  );
+});
+
+test("test quotation mark attribute value", () => {
+  const key = `key=`;
+  const baseValue = "value";
+  const value = "hello world";
+  const quotationValue = `'${value}'`;
+  const dbQuotationValue = `"${value}"`;
+  const errorQuotationValue = `"${value}'`;
+  const errMatch = extractAttribute(key + errorQuotationValue);
+
+  expect(extractAttribute(key + quotationValue)[3]).toBe(value);
+  expect(extractAttribute(key + dbQuotationValue)[4]).toBe(value);
+  expect(extractAttribute(key + baseValue)[5]).toBe(baseValue);
+  expect(errMatch[3] || errMatch[4] || errMatch[5]).toBeUndefined();
+});
+
+test("test start tag close", () => {
+  const startTagCloseHtml = "/ ><p></p>";
+  const errStartTagCloseHtml = "><p></p>";
+
+  expect(extractStartTagClose(startTagCloseHtml)).not.toBeNull();
+  expect(extractStartTagClose(errStartTagCloseHtml)).not.toBeNull();
+});
+
+test("test extract plain text", () => {
+  const plainText = "hello world";
+  const containTag = plainText + `<p>paragraph</p>`;
+  const containStartTagOpen = `${plainText} < ${plainText}<p>paragraph</p>`;
+
+  expect(extractText(plainText)).toBe(plainText);
+  expect(extractText(containTag)).toBe(plainText);
+  expect(extractText(containStartTagOpen)).toBe(`${plainText} < ${plainText}`);
+});
