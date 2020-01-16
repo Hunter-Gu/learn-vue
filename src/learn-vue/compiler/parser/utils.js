@@ -4,10 +4,7 @@ const VALID_KEY = `([^\\s${TAG_OPEN_SYM}${TAG_CLOSE_SYM}]+)`;
 
 const START_TAG_OPEN_EXP = new RegExp(`^${TAG_OPEN_SYM}\\s*${VALID_KEY}`);
 export function extractStartTagOpen(html) {
-  let match = null;
-  if ((match = html.match(START_TAG_OPEN_EXP))) {
-    return match;
-  }
+  return html.match(START_TAG_OPEN_EXP);
 }
 
 const ATTRIBUTE = `[^\\s'"${TAG_OPEN_SYM}${TAG_CLOSE_SYM}=]+`;
@@ -15,34 +12,24 @@ const ATTRIBUTES_EXP = new RegExp(
   `^\\s*(${ATTRIBUTE})(?:\\s*(=)\\s*(?:'([^']*)'|"([^"]*)"|(${ATTRIBUTE})))?`
 );
 export function extractAttribute(html) {
-  let match = null;
-  if ((match = html.match(ATTRIBUTES_EXP))) {
-    return match;
-  }
+  return html.match(ATTRIBUTES_EXP);
 }
 
 const START_TAG_CLOSE_EXP = new RegExp(`^\\s*\\/?\\s*${TAG_CLOSE_SYM}`);
 export function extractStartTagClose(html) {
-  let match = null;
-  if ((match = html.match(START_TAG_CLOSE_EXP))) {
-    return match;
-  }
+  return html.match(START_TAG_CLOSE_EXP);
 }
 
 const CLOSE_TAG_EXP = `^${TAG_OPEN_SYM}\\s*\\/\\s*${VALID_KEY}\\s*${TAG_CLOSE_SYM}`;
 export function extractCloseTag(html) {
-  let match = null;
-
-  if ((match = html.match(CLOSE_TAG_EXP))) {
-    return match;
-  }
+  return html.match(CLOSE_TAG_EXP);
 }
 /**
  * @description extract plain text from html
  * @example
  *  extract<p>not extracted</p> -> extract
  *  extract<extract<p>not extracted</p> -> extract<extract
- *  extract</extract<p>not extracted</p> -> extract</extract
+ *  [TODO]extract</extract<p>not extracted</p> -> extract</extract
  */
 const getStartTagIdx = html => html.indexOf(TAG_OPEN_SYM);
 export function extractText(html) {
