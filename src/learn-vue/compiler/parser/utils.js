@@ -1,6 +1,6 @@
 const TAG_OPEN_SYM = "<";
 const TAG_CLOSE_SYM = ">";
-const VALID_KEY = `([^\\s${TAG_CLOSE_SYM}]+)`;
+const VALID_KEY = `([^\\s${TAG_OPEN_SYM}${TAG_CLOSE_SYM}]+)`;
 
 const START_TAG_OPEN_EXP = new RegExp(`^${TAG_OPEN_SYM}\\s*${VALID_KEY}`);
 export function extractStartTagOpen(html) {
@@ -28,6 +28,15 @@ export function extractStartTagClose(html) {
     return match;
   }
 }
+
+const CLOSE_TAG_EXP = `^${TAG_OPEN_SYM}\\s*\\/\\s*${VALID_KEY}\\s*${TAG_CLOSE_SYM}`;
+export function extractCloseTag(html) {
+  let match = null;
+
+  if ((match = html.match(CLOSE_TAG_EXP))) {
+    return match;
+  }
+}
 /**
  * @description extract plain text from html
  * @example
@@ -35,13 +44,19 @@ export function extractStartTagClose(html) {
  *  extract<extract<p>not extracted</p> -> extract<extract
  *  extract</extract<p>not extracted</p> -> extract</extract
  */
+const getStartTagIdx = html => html.indexOf(TAG_OPEN_SYM);
 export function extractText(html) {
   let text = "";
-  let idx = html.indexOf(TAG_OPEN_SYM);
+  let idx = getStartTagIdx(html);
   const validIdx = idx => idx >= 0;
   if (validIdx(idx)) {
-    html = html.slice(idx);
-    text += extractText(html);
+    do {
+      text += html.slice(0, idx);
+      html = html.slice(idx);
+    } while (
+      !START_TAG_OPEN_EXP.test(html) &&
+      validIdx((idx = getStartTagIdx(html)))
+    );
   } else {
     text = html;
   }
