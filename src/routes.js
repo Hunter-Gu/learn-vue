@@ -9,6 +9,7 @@ import RenderAttrs from "@/components/vdom/render-attrs";
 import RenderProps from "@/components/vdom/render-props";
 import RenderStyle from "@/components/vdom/render-style";
 import RenderEvents from "@/components/vdom/render-events";
+import RenderChildren from "@/components/vdom/render-children";
 
 export const RENDER_PLAIN_TEXT = "/example/render-plain-text";
 export const RENDER_HTML_ELEMENT = "/example/render-html-element";
@@ -20,6 +21,7 @@ export const RENDER_ATTRS = "/example/render-attrs";
 export const RENDER_PROPS = "/example/render-props";
 export const RENDER_STYLE = "/example/render-style";
 export const RENDER_EVENTS = "/example/render-events";
+export const RENDER_CHILDREN = "/example/render-children";
 
 export default [
   {
@@ -65,5 +67,9 @@ export default [
   {
     path: RENDER_EVENTS,
     component: RenderEvents
+  },
+  {
+    path: RENDER_CHILDREN,
+    component: RenderChildren
   }
 ];
