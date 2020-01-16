@@ -1,4 +1,5 @@
 import {
+  extractDoctype,
   extractStartTagOpen,
   extractAttribute,
   extractStartTagClose,
@@ -7,6 +8,14 @@ import {
   extractComment,
   extractConditionComment
 } from "@/learn-vue/compiler/parser/utils";
+
+test("test eat up doctype", () => {
+  const doctype = "<!doctype html5>";
+  const str = "<p>hello world</p>";
+  const html = doctype + str;
+  expect(extractDoctype(html)).toBe(str);
+  expect(extractDoctype(str)).toBe(str);
+});
 
 test("test extract start tag from html", () => {
   const tag = "p";
