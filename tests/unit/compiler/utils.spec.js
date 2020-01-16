@@ -3,7 +3,9 @@ import {
   extractAttribute,
   extractStartTagClose,
   extractCloseTag,
-  extractText
+  extractText,
+  extractComment,
+  extractConditionComment
 } from "@/learn-vue/compiler/parser/utils";
 
 test("test extract start tag from html", () => {
@@ -66,9 +68,24 @@ test("test extract close tag", () => {
 test("test extract plain text", () => {
   const plainText = "hello world";
   const containTag = plainText + `<p>paragraph</p>`;
-  const containStartTagOpen = `${plainText} < ${plainText}<p>paragraph</p>`;
+  // need to escape "<"
+  const containStartTagOpen = `${plainText} &lt; ${plainText}<p>paragraph</p>`;
 
   expect(extractText(plainText)).toBe(plainText);
   expect(extractText(containTag)).toBe(plainText);
-  expect(extractText(containStartTagOpen)).toBe(`${plainText} < ${plainText}`);
+  expect(extractText(containStartTagOpen)).toBe(
+    `${plainText} &lt; ${plainText}`
+  );
+});
+
+test("test extract comment", () => {
+  const comment = "comment content";
+  const html = `<!--${comment}-->`;
+  expect(extractComment(html).text).toBe(comment);
+});
+
+test("test extract condition comment", () => {
+  const conditionComment = "condition comment";
+  const html = `<![${conditionComment}]>`;
+  expect(extractConditionComment(html).text).toBe(conditionComment);
 });
