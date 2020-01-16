@@ -2,6 +2,7 @@ import {
   extractStartTagOpen,
   extractAttribute,
   extractStartTagClose,
+  extractCloseTag,
   extractText
 } from "@/learn-vue/compiler/parser/utils";
 
@@ -48,12 +49,18 @@ test("test quotation mark attribute value", () => {
   expect(errMatch[3] || errMatch[4] || errMatch[5]).toBeUndefined();
 });
 
-test("test start tag close", () => {
+test("test extract start tag close", () => {
   const startTagCloseHtml = "/ ><p></p>";
   const errStartTagCloseHtml = "><p></p>";
 
   expect(extractStartTagClose(startTagCloseHtml)).not.toBeNull();
   expect(extractStartTagClose(errStartTagCloseHtml)).not.toBeNull();
+});
+
+test("test extract close tag", () => {
+  const html = "< / div >";
+
+  expect(extractCloseTag(html)[1]).toBe("div");
 });
 
 test("test extract plain text", () => {
