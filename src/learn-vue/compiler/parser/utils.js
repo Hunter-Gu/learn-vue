@@ -24,6 +24,15 @@ const CLOSE_TAG_EXP = `^${TAG_OPEN_SYM}\\s*\\/\\s*${VALID_KEY}\\s*${TAG_CLOSE_SY
 export function extractCloseTag(html) {
   return html.match(CLOSE_TAG_EXP);
 }
+
+const CLOSE_TAG_EXP = `^${TAG_OPEN_SYM}\\s*\\/\\s*${VALID_KEY}\\s*${TAG_CLOSE_SYM}`;
+export function extractCloseTag(html) {
+  let match = null;
+
+  if ((match = html.match(CLOSE_TAG_EXP))) {
+    return match;
+  }
+}
 /**
  * @description extract plain text from html
  * @example
