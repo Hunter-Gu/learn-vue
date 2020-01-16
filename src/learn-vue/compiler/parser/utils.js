@@ -10,12 +10,13 @@ export function extractStartTagOpen(html) {
   }
 }
 
-const ATTR_AND_PROPS_EXP = new RegExp(
-  `^\\s*${VALID_KEY}(\\s*=\\s*${VALID_KEY})?`
+const ATTRIBUTE = `[^\\s'"${TAG_OPEN_SYM}${TAG_CLOSE_SYM}=]+`;
+const ATTRIBUTES_EXP = new RegExp(
+  `^\\s*(${ATTRIBUTE})(?:\\s*(=)\\s*(?:'([^']*)'|"([^"]*)"|(${ATTRIBUTE})))?`
 );
-export function extractAttrsAndProps(html) {
+export function extractAttribute(html) {
   let match = null;
-  if ((match = html.match(ATTR_AND_PROPS_EXP))) {
+  if ((match = html.match(ATTRIBUTES_EXP))) {
     return match;
   }
 }
@@ -27,14 +28,22 @@ export function extractStartTagClose(html) {
     return match;
   }
 }
-
+/**
+ * @description extract plain text from html
+ * @example
+ *  extract<p>not extracted</p> -> extract
+ *  extract<extract<p>not extracted</p> -> extract<extract
+ *  extract</extract<p>not extracted</p> -> extract</extract
+ */
 export function extractText(html) {
   let text = "";
   let idx = html.indexOf(TAG_OPEN_SYM);
   const validIdx = idx => idx >= 0;
   if (validIdx(idx)) {
-    text += html.slice(0, idx);
     html = html.slice(idx);
+    text += extractText(html);
+  } else {
+    text = html;
   }
 
   return text;
