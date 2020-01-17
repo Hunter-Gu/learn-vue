@@ -1,25 +1,36 @@
 import {
   ELEMENT_TYPE,
+  IS_HTML_ELEMENT,
+  IS_COMPONENT_ELEMENT,
   CHILDREN_TYPE,
   createElement,
   createTextNode,
   query
 } from "./constant";
 import { initVnodeData } from "./init-vnode-data";
+import { patch } from "./patch";
 
 export function render(vnode, container) {
-  mount(vnode, container);
+  const { vnode: preVnode } = { container };
+  if (preVnode) {
+    if (vnode) {
+      patch(vnode, preVnode, container);
+    } else {
+      container.removeChild(preVnode.$el);
+    }
+  } else if (vnode) {
+    mount(vnode, container);
+  }
+
+  container.vnode = vnode || null;
 }
 
-function mount(vnode, container) {
+export function mount(vnode, container) {
   const { vnodeFlag } = vnode;
 
-  if (vnodeFlag & (ELEMENT_TYPE.HTML_ELEMENT | ELEMENT_TYPE.SVG_ELEMENT)) {
+  if (vnodeFlag & IS_HTML_ELEMENT) {
     mountElement(vnode, container);
-  } else if (
-    vnodeFlag &
-    (ELEMENT_TYPE.FUNCTIONAL_COMPONENT | ELEMENT_TYPE.NORMAL_COMPONENT_ELEMENT)
-  ) {
+  } else if (vnodeFlag & IS_COMPONENT_ELEMENT) {
     mountComponent(vnode, container);
   } else if (vnodeFlag & ELEMENT_TYPE.PORTAL) {
     mountPortal(vnode, container);

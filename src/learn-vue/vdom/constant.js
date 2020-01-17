@@ -12,6 +12,12 @@ export const ELEMENT_TYPE = {
   TEXT: 1 << 6
 };
 
+export const IS_HTML_ELEMENT =
+  ELEMENT_TYPE.HTML_ELEMENT | ELEMENT_TYPE.SVG_ELEMENT;
+
+export const IS_COMPONENT_ELEMENT =
+  ELEMENT_TYPE.NORMAL_COMPONENT_ELEMENT | ELEMENT_TYPE.FUNCTIONAL_COMPONENT;
+
 /* istanbul ignore next */
 export const SVG = "svg";
 
