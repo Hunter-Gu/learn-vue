@@ -1,6 +1,39 @@
 import { isFucntionalComp, isFunction } from "../utils/util";
 import { ELEMENT_TYPE, FRAGMENT, PORTAL, CHILDREN_TYPE, SVG } from "./constant";
 
+/**
+
+type tag = string | Component | functionalComp;
+
+type children = BaseVNode | BaseVNode[]
+
+type h = (tag: tag, data: VNodeData, children: children) => VNode;
+
+type functionalComp = (h?: h) => BaseVNode
+
+interface Component {
+  render: (h?: h) => BaseVNode
+}
+
+interface VNodeData {
+  attrs: Object;
+  props: Object;
+  style: Object;
+  class: string
+  events: Object;
+}
+
+interface VNode {
+  tag: tag
+  vnodeFlag;
+  data: VNodeData;
+  childFlag;
+  children: children
+}
+
+type BaseVNode = Omit<VNode, 'vnodeFlag' | 'childFlag'>
+*/
+
 export function h(tag, data, children) {
   return {
     tag,
