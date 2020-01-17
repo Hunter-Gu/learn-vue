@@ -60,14 +60,14 @@ function _mountStatefulComponent(vnode, container) {
   const instance = new tag();
 
   instance.vnode = instance.render();
-  mountElement(instance.vnode, container);
+  mount(instance.vnode, container);
   instance.$el = vnode.$el = instance.vnode.$el;
 }
 
 function _mountFunctionalComponent(vnode, container) {
   const { tag } = vnode;
   const $vnode = tag();
-  mountElement($vnode, container);
+  mount($vnode, container);
   vnode.$el = $vnode.$el;
 }
 
