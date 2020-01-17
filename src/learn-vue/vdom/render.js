@@ -31,7 +31,8 @@ function mount(vnode, container) {
 }
 
 function mountElement(vnode, container) {
-  const { tag, vnodeFlag } = vnode;
+  const { tag, vnodeFlag, childFlag, children } = vnode;
+
   const isSVG = vnodeFlag & ELEMENT_TYPE.SVG_ELEMENT;
 
   const el = (vnode.$el = isSVG
@@ -39,7 +40,7 @@ function mountElement(vnode, container) {
     : createElement(tag));
 
   initVnodeData(vnode);
-  _mountChildren(vnode, el);
+  _mountChildren(childFlag, children, el);
   container.appendChild(el);
 }
 
@@ -71,13 +72,14 @@ function _mountFunctionalComponent(vnode, container) {
 }
 
 function mountPortal(vnode) {
-  const { target: targetTag } = vnode;
+  const { target: targetTag, childFlag, children } = vnode;
   const target = typeof targetTag === "string" ? query(targetTag) : targetTag;
-  _mountChildren(vnode, target);
+  _mountChildren(childFlag, children, target);
 }
 
 function mountFragment(vnode, container) {
-  _mountChildren(vnode, container);
+  const { childFlag, children } = vnode;
+  _mountChildren(childFlag, children, container);
 }
 
 function mountText(vnode, container) {
@@ -86,9 +88,7 @@ function mountText(vnode, container) {
   container.appendChild(el);
 }
 
-function _mountChildren(vnode, container) {
-  const { children, childFlag } = vnode;
-
+function _mountChildren(childFlag, children, container) {
   if (childFlag & CHILDREN_TYPE.SINGLE_CHILDREN) {
     mount(children[0], container);
   } else if (childFlag & CHILDREN_TYPE.MULTIPLE_CHILDREN) {
