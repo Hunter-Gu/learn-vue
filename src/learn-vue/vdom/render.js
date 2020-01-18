@@ -7,7 +7,7 @@ import {
   createTextNode,
   query
 } from "./constant";
-import { initVnodeData } from "./init-vnode-data";
+import { initVnodeData } from "./vnode-data";
 import { patch } from "./patch";
 
 export function render(vnode, container) {
@@ -42,7 +42,7 @@ export function mount(vnode, container) {
 }
 
 function mountElement(vnode, container) {
-  const { tag, vnodeFlag, childFlag, children } = vnode;
+  const { tag, vnodeFlag, childFlag, children, data } = vnode;
 
   const isSVG = vnodeFlag & ELEMENT_TYPE.SVG_ELEMENT;
 
@@ -50,7 +50,7 @@ function mountElement(vnode, container) {
     ? document.createElementNS("http://www.w3.org/2000/svg", tag)
     : createElement(tag));
 
-  initVnodeData(vnode);
+  initVnodeData(data, el);
   _mountChildren(childFlag, children, el);
   container.appendChild(el);
 }
