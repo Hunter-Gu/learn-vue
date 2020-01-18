@@ -4,6 +4,7 @@ import {
   IS_HTML_ELEMENT,
   IS_COMPONENT_ELEMENT
 } from "./constant";
+import { patchVnodeData } from "./vnode-data";
 
 export function patch(vnode, prevVnode, container) {
   const { vnodeFlag } = vnode;
@@ -25,7 +26,14 @@ export function patch(vnode, prevVnode, container) {
 }
 
 function _patchElement(vnode, prevVnode, container) {
-  console.log(vnode, prevVnode, container);
+  if (vnode.tag !== prevVnode.tag) {
+    replaceVNode(vnode, prevVnode, container);
+  } else {
+    const { data } = vnode;
+    const { data: prevData } = prevVnode;
+    const el = (vnode.$el = prevVnode.$el);
+    patchVnodeData(data, prevData, el);
+  }
 }
 
 function _patchComponent(vnode, prevVnode, container) {
