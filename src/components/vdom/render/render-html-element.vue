@@ -16,11 +16,10 @@ export default {
   },
   mounted() {
     const container = query(`#${this.id}`);
-    const htmlElmVnode = h("span");
     const svgVnode = h("svg");
+    const htmlElmVnode = h("span", null, svgVnode);
 
     render(htmlElmVnode, container);
-    render(svgVnode, container);
   }
 };
 </script>

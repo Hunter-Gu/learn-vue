@@ -8,26 +8,22 @@ import { render } from "@/learn-vue/vdom/render";
 import { query } from "@/learn-vue/vdom/constant";
 
 export default {
-  name: "RenderComp",
+  name: "RenderFunctionalComp",
   data() {
     return {
-      id: "render-comp-container"
+      id: "render-functional-comp-container"
     };
   },
   mounted() {
     const container = query(`#${this.id}`);
 
-    render(this.getNormalCompVnode(), container);
+    render(this.getFunctionalCompVnode(), container);
   },
   methods: {
-    getNormalCompVnode() {
-      class ClassComp {
-        render() {
-          return h("span");
-        }
-      }
-
-      return h(ClassComp);
+    getFunctionalCompVnode() {
+      const FuncitonalComp = () => h("p");
+      FuncitonalComp.functional = true;
+      return h(FuncitonalComp);
     }
   }
 };

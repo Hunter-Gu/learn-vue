@@ -5,7 +5,7 @@
 <script>
 import { h } from "@/learn-vue/vdom/h";
 import { render } from "@/learn-vue/vdom/render";
-import { query } from "@/learn-vue/vdom/constant";
+import { query, FRAGMENT } from "@/learn-vue/vdom/constant";
 
 export default {
   name: "RenderChildren",
@@ -50,9 +50,11 @@ export default {
         })
       ]
     );
-    render(childVnode, container);
-    render(arrayChildVnode, container);
-    render(arrayChildrenVnode, container);
+
+    render(
+      h(FRAGMENT, null, [childVnode, arrayChildVnode, arrayChildrenVnode]),
+      container
+    );
   }
 };
 </script>
