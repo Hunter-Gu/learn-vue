@@ -1,6 +1,7 @@
 import RenderPlainText from "@/components/vdom/render/render-plain-text";
 import RenderHTMLElement from "@/components/vdom/render/render-html-element";
 import RenderComp from "@/components/vdom/render/render-comp";
+import RenderFunctionalComp from "@/components/vdom/render/render-functional-comp";
 import RenderFragment from "@/components/vdom/render/render-fragment";
 import RenderPortal from "@/components/vdom/render/render-portal";
 import RenderClassName from "@/components/vdom/render/render-classname";
@@ -13,6 +14,7 @@ import RenderChildren from "@/components/vdom/render/render-children";
 export const RENDER_PLAIN_TEXT = "render-plain-text";
 export const RENDER_HTML_ELEMENT = "render-html-element";
 export const RENDER_COMP = "render-comp";
+export const RENDER_FUNCTIONAL_COMP = "render-functional-comp";
 export const RENDER_FRAGMENT = "render-fragment";
 export const RENDER_PORTAL = "render-portal";
 export const RENDER_CLASSNAME = "render-classname";
@@ -30,6 +32,10 @@ export default [
   {
     path: RENDER_COMP,
     component: RenderComp
+  },
+  {
+    path: RENDER_FUNCTIONAL_COMP,
+    component: RenderFunctionalComp
   },
   {
     path: RENDER_PLAIN_TEXT,

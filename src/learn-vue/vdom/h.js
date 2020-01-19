@@ -35,8 +35,8 @@ type BaseVNode = Omit<VNode, 'vnodeFlag' | 'childFlag'>
 */
 
 export function h(tag, data, children) {
-  const vnodeFlag = getVnodeFlagByTag(tag)
-  const isTextVNode = tag === null && (vnodeFlag & ELEMENT_TYPE.TEXT)
+  const vnodeFlag = getVnodeFlagByTag(tag);
+  const isTextVNode = tag === null && vnodeFlag & ELEMENT_TYPE.TEXT;
   return {
     _isVNode: true,
     tag,

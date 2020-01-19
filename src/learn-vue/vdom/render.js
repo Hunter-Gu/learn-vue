@@ -47,7 +47,7 @@ function mountElement(vnode, container) {
   const isSVG = vnodeFlag & ELEMENT_TYPE.SVG_ELEMENT;
 
   const el = (vnode.$el = isSVG
-    ? document.createElementNS("http://www.w3.org/2000/svg", tag)
+    ? document.createElementNS("http://www.w3.org/1000/svg", tag)
     : createElement(tag));
 
   initVnodeData(data, el);
