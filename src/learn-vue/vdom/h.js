@@ -1,6 +1,5 @@
 import { isFucntionalComp, isFunction } from "../utils/util";
 import { ELEMENT_TYPE, FRAGMENT, PORTAL, CHILDREN_TYPE, SVG } from "./constant";
-
 /**
 
 type tag = string | Component | functionalComp;
@@ -24,6 +23,7 @@ interface VNodeData {
 }
 
 interface VNode {
+  _isVNode: true;
   tag: tag
   vnodeFlag;
   data: VNodeData;
@@ -35,11 +35,14 @@ type BaseVNode = Omit<VNode, 'vnodeFlag' | 'childFlag'>
 */
 
 export function h(tag, data, children) {
+  const vnodeFlag = getVnodeFlagByTag(tag)
+  const isTextVNode = tag === null && (vnodeFlag & ELEMENT_TYPE.TEXT)
   return {
+    _isVNode: true,
     tag,
-    vnodeFlag: getVnodeFlagByTag(tag),
+    vnodeFlag,
     data,
-    ...initChildren(children)
+    ...initChildren(children, isTextVNode)
   };
 }
 
@@ -64,7 +67,7 @@ function getVnodeFlagByTag(tag) {
   return vnodeFlag;
 }
 
-function initChildren(children) {
+function initChildren(children, isTextVNode) {
   let childFlag;
 
   if (Array.isArray(children)) {
@@ -86,6 +89,24 @@ function initChildren(children) {
 
   return {
     childFlag,
-    children
+    children: !isTextVNode ? normalizeVNodes(children) : children
   };
+}
+
+function normalizeVNodes(children) {
+  return children.map(child => {
+    if (!child._isVNode) {
+      // TODO: refactor code for better DRY
+      return {
+        tag: null,
+        children: [child],
+        vnodeFlag: ELEMENT_TYPE.TEXT,
+        data: null,
+        _isVNode: true,
+        childFlag: CHILDREN_TYPE.SINGLE_CHILDREN
+      };
+    } else {
+      return child;
+    }
+  });
 }
