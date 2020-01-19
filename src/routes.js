@@ -1,15 +1,15 @@
 import Home from "@/components/home";
-import RenderPlainText from "@/components/vdom/render-plain-text";
-import RenderHTMLElement from "@/components/vdom/render-html-element";
-import RenderComp from "@/components/vdom/render-comp";
-import RenderFragment from "@/components/vdom/render-fragment";
-import RenderPortal from "@/components/vdom/render-portal";
-import RenderClassName from "@/components/vdom/render-classname";
-import RenderAttrs from "@/components/vdom/render-attrs";
-import RenderProps from "@/components/vdom/render-props";
-import RenderStyle from "@/components/vdom/render-style";
-import RenderEvents from "@/components/vdom/render-events";
-import RenderChildren from "@/components/vdom/render-children";
+import RenderPlainText from "@/components/vdom/render/render-plain-text";
+import RenderHTMLElement from "@/components/vdom/render/render-html-element";
+import RenderComp from "@/components/vdom/render/render-comp";
+import RenderFragment from "@/components/vdom/render/render-fragment";
+import RenderPortal from "@/components/vdom/render/render-portal";
+import RenderClassName from "@/components/vdom/render/render-classname";
+import RenderAttrs from "@/components/vdom/render/render-attrs";
+import RenderProps from "@/components/vdom/render/render-props";
+import RenderStyle from "@/components/vdom/render/render-style";
+import RenderEvents from "@/components/vdom/render/render-events";
+import RenderChildren from "@/components/vdom/render/render-children";
 
 export const RENDER_PLAIN_TEXT = "/example/render-plain-text";
 export const RENDER_HTML_ELEMENT = "/example/render-html-element";
