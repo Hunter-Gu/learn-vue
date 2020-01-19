@@ -72,7 +72,7 @@ function _patchStyle(el, style, prevStyle) {
       elmStyle[key] = value;
     },
     key => {
-      delete elmStyle[key];
+      elmStyle[key] = "";
     }
   );
 }
