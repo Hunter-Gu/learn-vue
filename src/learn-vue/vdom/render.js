@@ -99,7 +99,7 @@ function mountText(vnode, container) {
   container.appendChild(el);
 }
 
-function _mountChildren(childFlag, children, container) {
+export function _mountChildren(childFlag, children, container) {
   if (childFlag & CHILDREN_TYPE.SINGLE_CHILDREN) {
     mount(children[0], container);
   } else if (childFlag & CHILDREN_TYPE.MULTIPLE_CHILDREN) {
