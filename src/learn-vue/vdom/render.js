@@ -11,7 +11,7 @@ import { initVnodeData } from "./vnode-data";
 import { patch } from "./patch";
 
 export function render(vnode, container) {
-  const { vnode: preVnode } = { container };
+  const { vnode: preVnode } = container;
   if (preVnode) {
     if (vnode) {
       patch(vnode, preVnode, container);
