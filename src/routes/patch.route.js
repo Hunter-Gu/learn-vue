@@ -1,6 +1,7 @@
 import PatchText from "@/components/vdom/patch/patch-text";
 import PatchHtmlElement from "@/components/vdom/patch/patch-html-element";
 import PatchChildren from "@/components/vdom/patch/patch-children";
+import PatchVNodeData from "@/components/vdom/patch/patch-vnode-data";
 
 export default [
   {
@@ -14,5 +15,9 @@ export default [
   {
     path: "patch-children",
     component: PatchChildren
+  },
+  {
+    path: "patch-vnode-data",
+    component: PatchVNodeData
   }
 ];
