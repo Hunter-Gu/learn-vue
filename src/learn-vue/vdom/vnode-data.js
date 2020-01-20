@@ -121,8 +121,10 @@ function _patchObject(data, prevData, setter, deleter) {
     return key in obj && hasOwn(obj, key);
   };
   const handleOwnKeys = (obj, handler) => {
-    for (let k in obj && isOwnKey(obj, k)) {
-      handler(k, obj[k]);
+    for (let k in obj) {
+      if (isOwnKey(obj, k)) {
+        handler(k, obj[k]);
+      }
     }
   };
   // delete keys exist in prevData but don't exist in data
