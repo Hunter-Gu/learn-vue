@@ -32,7 +32,26 @@ module.exports = {
           .waitForElementNotPresent("p", 1000)
           .element("css selector", `div > span`, result => {
             browser.assert.equal(result.status, 0);
-          })
+          });
+      });
+  },
+  "test patch vnode data except events"(browser) {
+    const newPrefix = "new-";
+    const classAndId = "input";
+    const value = "hello world";
+    browser
+      .url(BASE_URL + "patch-vnode-data")
+      .waitForElementVisible("input", 1000)
+      .assert.attributeContains(classAndId, "class", classAndId)
+      .assert.attributeContains(classAndId, "id", classAndId)
+      .assert.domPropertyEquals(classAndId, "value", value)
+      .assert.domPropertyEquals(classAndId, "style", "color")
+      .pause(3000, () => {
+        browser
+          .waitForElementVisible(classAndId, 1000)
+          .assert.attributeContains(classAndId, "class", newPrefix + classAndId)
+          .assert.attributeContains(classAndId, "id", newPrefix + classAndId)
+          .assert.domPropertyEquals(classAndId, "value", value.toUpperCase())
           .end();
       });
   }
