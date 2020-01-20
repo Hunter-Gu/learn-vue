@@ -28,7 +28,8 @@ interface VNode {
   vnodeFlag;
   data: VNodeData;
   childFlag;
-  children: children
+  children: children,
+  target: string | HTMLElement
 }
 
 type BaseVNode = Omit<VNode, 'vnodeFlag' | 'childFlag'>

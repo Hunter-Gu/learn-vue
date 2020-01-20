@@ -107,7 +107,9 @@ function _patchChildren(
 ) {
   if (childFlag & CHILDREN_TYPE.NO_CHILDREN) {
     // have no new children
-    prevChildren.forEach(container.removeChild.bind(container));
+    prevChildren
+      .map(child => child.$el)
+      .forEach(container.removeChild.bind(container));
   } else if (prevChildFlag & CHILDREN_TYPE.NO_CHILDREN) {
     // only have new children and have no old children
     _mountChildren(childFlag, children, container);
@@ -116,7 +118,9 @@ function _patchChildren(
     patch(children[0], prevChildren[0], container);
   } else {
     // TODO: optimize by key
-    prevChildren.forEach(container.removeChild.bind(container));
+    prevChildren
+      .map(child => child.$el)
+      .forEach(container.removeChild.bind(container));
     _mountChildren(childFlag, children, container);
   }
 }
