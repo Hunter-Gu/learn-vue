@@ -77,5 +77,25 @@ module.exports = {
           })
           .end();
       });
+  },
+  "test patch events"(browser) {
+    const className = "patch-events-container";
+    let cnt = 0;
+    const assertion = text =>
+      browser.assert.containsText("#" + className, text + cnt++);
+
+    const before = "before";
+    const after = "after";
+    browser
+      .url(BASE_URL + "patch-events")
+      .waitForElementVisible("." + className, 1000)
+      .click("." + className, () => {
+        assertion(before);
+      })
+      .pause(3000, () => {
+        browser.click("." + className, () => {
+          assertion(after).end();
+        });
+      });
   }
 };
