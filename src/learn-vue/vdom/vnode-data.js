@@ -66,60 +66,60 @@ function _patchClass(el, cls, prevCls) {
 function _patchStyle(el, style, prevStyle) {
   const { style: elmStyle } = el;
   _patchObject(
-    style,
-    prevStyle,
     (key, value) => {
       elmStyle[key] = value;
     },
     key => {
       elmStyle[key] = "";
     }
-  );
+  )(style, prevStyle);
 }
 
 function _patchAttrs(el, attrs, prevAttrs) {
   _patchObject(
-    attrs,
-    prevAttrs,
     (key, value) => {
       el.setAttribute(key, value);
     },
     key => {
       el.removeAttribute(key);
     }
-  );
+  )(attrs, prevAttrs);
 }
 
 function _patchProps(el, props, prevProps) {
   _patchObject(
-    props,
-    prevProps,
     (key, value) => {
       el[key] = value;
     },
     key => {
       delete el[key];
     }
-  );
+  )(props, prevProps);
 }
 
 function _patchEvents(el, events, prevEvents) {
   _patchObject(
-    events,
-    prevEvents,
     (key, handler) => {
       el.addEventListener(key, handler);
     },
     (key, handler) => {
       el.removeEventListener(key, handler);
     }
-  );
+  )(events, prevEvents);
 }
 
-function _patchObject(data, prevData, setter, deleter) {
-  const isOwnKey = (obj, key) => {
-    return key in obj && hasOwn(obj, key);
-  };
+const isOwnKey = (obj, key) => {
+  return key in obj && hasOwn(obj, key);
+};
+function _patchObject(
+  setter,
+  deleter,
+  predication /* (prevObj: T, k: keyof T, v) => boolean */
+) {
+  if (!isFunction(predication)) {
+    predication = (data, prevData, k) => !isOwnKey(data, k);
+  }
+
   const handleOwnKeys = (obj, handler) => {
     for (let k in obj) {
       if (isOwnKey(obj, k)) {
@@ -127,16 +127,19 @@ function _patchObject(data, prevData, setter, deleter) {
       }
     }
   };
-  // delete keys exist in prevData but don't exist in data
-  handleOwnKeys(prevData, (k, v) => {
-    if (!isOwnKey(data, k)) {
-      deleter(k, v);
-    }
-  });
-  // set keys exist in data
-  handleOwnKeys(data, (k, v) => {
-    setter(k, v);
-  });
+
+  return (data, prevData) => {
+    // delete keys exist in prevData but don't exist in data
+    handleOwnKeys(prevData, (k, v) => {
+      if (predication(data, prevData, k)) {
+        deleter(k, v);
+      }
+    });
+    // set keys exist in data
+    handleOwnKeys(data, (k, v) => {
+      setter(k, v);
+    });
+  };
 }
 
 function handleVnodeData(hooks) {
