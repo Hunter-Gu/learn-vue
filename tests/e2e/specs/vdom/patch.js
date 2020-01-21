@@ -54,5 +54,28 @@ module.exports = {
           .assert.domPropertyEquals(classAndId, "value", value.toUpperCase())
           .end();
       });
+  },
+  "test patch portal"(browser) {
+    const className = ".patch-portal-container1";
+    browser
+      .url(BASE_URL + "patch-portal")
+      .element("css selector", `div${className} > span`, result => {
+        browser.assert.equal(result.status, 0);
+      })
+      .element("css selector", `div${className} > a`, result => {
+        browser.assert.equal(result.status, 0);
+      })
+      .pause(3000, () => {
+        const newClassName = ".patch-portal-container2";
+
+        browser
+          .element("css selector", `div${newClassName} > p`, result => {
+            browser.assert.equal(result.status, 0);
+          })
+          .element("css selector", `div${newClassName} > span`, result => {
+            browser.assert.equal(result.status, 0);
+          })
+          .end();
+      });
   }
 };
