@@ -97,5 +97,19 @@ module.exports = {
           assertion(after).end();
         });
       });
+  },
+  "test patch fragment"(browser) {
+    const className = "patch-fragment-container";
+    browser
+      .url(BASE_URL + "patch-fragment")
+      .waitForElementVisible("#" + className, 1000)
+      .element("css selector", `div > span`, () => {
+        browser.expect.elements("span").count.to.equal(2);
+      })
+      .pause(3000, () => {
+        browser.element("css selector", `div > p`, () => {
+          browser.expect.elements("p").count.to.equal(2);
+        });
+      });
   }
 };
