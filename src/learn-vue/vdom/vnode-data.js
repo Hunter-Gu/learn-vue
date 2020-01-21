@@ -104,6 +104,9 @@ function _patchEvents(el, events, prevEvents) {
     },
     (key, handler) => {
       el.removeEventListener(key, handler);
+    },
+    (data, prevData, key) => {
+      return data[key] !== prevData[key];
     }
   )(events, prevEvents);
 }
