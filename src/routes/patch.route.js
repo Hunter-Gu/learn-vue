@@ -6,6 +6,7 @@ import PatchEvents from "@/components/vdom/patch/patch-events";
 import PatchPortal from "@/components/vdom/patch/patch-portal";
 import PatchFragment from "@/components/vdom/patch/patch-fragment";
 import PatchComp from "@/components/vdom/patch/patch-comp";
+import PatchFunctionalComp from "@/components/vdom/patch/patch-functional-comp";
 
 export default [
   {
@@ -39,5 +40,9 @@ export default [
   {
     path: "patch-comp",
     component: PatchComp
+  },
+  {
+    path: "patch-functional-comp",
+    component: PatchFunctionalComp
   }
 ];
