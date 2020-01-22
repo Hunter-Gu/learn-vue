@@ -65,14 +65,46 @@ function mountComponent(vnode, container) {
   }
 }
 
-// class component
+/**
+ * @description stateful component, 类式组件， 该组件相当于 extends 了下方注释的 `StatefulComponent`
+ * @type
+ *    abstract class StatefulComponent {
+ *      // 执行第一次 `render()` 后， 会被置为 true
+ *      _mounted = false
+ *
+ *      $props // 从父组件获取的 props
+ *
+ *      abstract render() {}
+ *
+ *      private _update() {
+ *        // 组件更新时会被调用
+ *        // 不能被 override
+ *      }
+ *    }
+ */
 function _mountStatefulComponent(vnode, container) {
-  const { tag } = vnode;
-  const instance = new tag();
+  const { tag, data } = vnode;
+  const instance = (vnode.$instance = new tag());
+  instance.$props = data.props || {};
+  /**
+   * @description 用于方便组件更新， 组件更新时： 1.需要重新生成 vnode 对象 2. patch
+   *    - 1.主动更新： 组件自身数据改变
+   *    - 2.被动更新： 组件依赖的外部数据改变， 如从父组件获取的 props
+   */
+  instance._update = function() {
+    if (instance._mounted) {
+      const preVnode = instance.vnode;
+      const nextVnode = (instance.vnode = instance.render());
+      patch(nextVnode, preVnode, container);
+    } else {
+      instance.vnode = instance.render();
+      mount(instance.vnode, container);
+      instance._mounted = true;
+    }
+    instance.$el = vnode.$el = instance.vnode.$el;
+  };
 
-  instance.vnode = instance.render();
-  mount(instance.vnode, container);
-  instance.$el = vnode.$el = instance.vnode.$el;
+  instance._update();
 }
 
 function _mountFunctionalComponent(vnode, container) {
