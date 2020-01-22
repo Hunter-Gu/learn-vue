@@ -17,7 +17,9 @@ export function initVnodeData(data, el) {
 }
 
 function _initClass(el, cls) {
-  el.className = cls;
+  if (cls) {
+    el.className = cls;
+  }
 }
 
 function _initStyle(el, style) {
@@ -59,7 +61,11 @@ export function patchVnodeData(data, prevData, el) {
 
 function _patchClass(el, cls, prevCls) {
   if (cls !== prevCls) {
-    el.className = cls;
+    if (cls) {
+      el.className = cls;
+    } else {
+      el.className = "";
+    }
   }
 }
 

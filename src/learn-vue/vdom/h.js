@@ -42,7 +42,7 @@ export function h(tag, data, children) {
     _isVNode: true,
     tag,
     vnodeFlag,
-    data,
+    data: data || {},
     ...initChildren(children, isTextVNode)
   };
 }
