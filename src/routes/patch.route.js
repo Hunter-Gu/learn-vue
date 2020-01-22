@@ -1,5 +1,6 @@
 import PatchText from "@/components/vdom/patch/patch-text";
 import PatchHtmlElement from "@/components/vdom/patch/patch-html-element";
+import PatchChildren from "@/components/vdom/patch/patch-children";
 
 export default [
   {
@@ -9,5 +10,9 @@ export default [
   {
     path: "patch-html-element",
     component: PatchHtmlElement
+  },
+  {
+    path: "patch-children",
+    component: PatchChildren
   }
 ];
