@@ -10,6 +10,7 @@ import RenderProps from "@/components/vdom/render/render-props";
 import RenderStyle from "@/components/vdom/render/render-style";
 import RenderEvents from "@/components/vdom/render/render-events";
 import RenderChildren from "@/components/vdom/render/render-children";
+import RenderWrappedComp from "@/components/vdom/render/render-wrapped-comp";
 
 export const RENDER_PLAIN_TEXT = "render-plain-text";
 export const RENDER_HTML_ELEMENT = "render-html-element";
@@ -23,6 +24,7 @@ export const RENDER_PROPS = "render-props";
 export const RENDER_STYLE = "render-style";
 export const RENDER_EVENTS = "render-events";
 export const RENDER_CHILDREN = "render-children";
+export const RENDER_WRAPPED_COMP = "render-wrapped-comp";
 
 export default [
   {
@@ -72,5 +74,9 @@ export default [
   {
     path: RENDER_CHILDREN,
     component: RenderChildren
+  },
+  {
+    path: RENDER_WRAPPED_COMP,
+    component: RenderWrappedComp
   }
 ];
