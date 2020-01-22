@@ -47,7 +47,19 @@ function _patchElement(vnode, prevVnode, container) {
 }
 
 function _patchComponent(vnode, prevVnode, container) {
-  console.log(vnode, prevVnode, container);
+  if (vnode.tag !== prevVnode.tag) {
+    replaceVNode(vnode, prevVnode, container);
+  } else if (vnode.vnodeFlag & ELEMENT_TYPE.NORMAL_COMPONENT_ELEMENT) {
+    const instance = (vnode.$instance = prevVnode.$instance);
+    instance.$props = vnode.data.props;
+    instance._update();
+  } else {
+    const handle = (vnode.handle = prevVnode.handle);
+    handle.prev = prevVnode;
+    handle.next = vnode;
+    handle.container = container;
+    handle.update();
+  }
 }
 
 function _patchPortal(vnode, prevVnode) {

@@ -23,6 +23,7 @@ interface VNodeData {
 }
 
 interface VNode {
+  $el: HTMLElement;
   _isVNode: true;
   tag: tag
   vnodeFlag;
@@ -30,8 +31,18 @@ interface VNode {
   childFlag;
   children: children,
   target: string | HTMLElement,
+  $instance: StatefulComp; // 类式组件特有， 用于保存当前组件实例
   handle?: Handle; // 函数式组件特有
   $tree?: VNode; // 函数式组件特有， 保存函数式组件生成的 VNode 对象
+}
+
+interface Instance {
+  $props: Object;
+  $el: HTMLElement;
+  _mounted: boolean;
+  vnode: VNode;
+  _update: () => void
+  render: () => VNode
 }
 
 interface Handle {
