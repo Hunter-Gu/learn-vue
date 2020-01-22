@@ -5,6 +5,7 @@ import PatchVNodeData from "@/components/vdom/patch/patch-vnode-data";
 import PatchEvents from "@/components/vdom/patch/patch-events";
 import PatchPortal from "@/components/vdom/patch/patch-portal";
 import PatchFragment from "@/components/vdom/patch/patch-fragment";
+import PatchComp from "@/components/vdom/patch/patch-comp";
 
 export default [
   {
@@ -34,5 +35,9 @@ export default [
   {
     path: "patch-fragment",
     component: PatchFragment
+  },
+  {
+    path: "patch-comp",
+    component: PatchComp
   }
 ];
