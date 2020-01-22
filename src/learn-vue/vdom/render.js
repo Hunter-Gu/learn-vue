@@ -107,11 +107,33 @@ function _mountStatefulComponent(vnode, container) {
   instance._update();
 }
 
+/**
+ * @description 函数式（无状态）组件， 只会被动更新
+ * @param {*} vnode
+ * @param {*} container
+ */
 function _mountFunctionalComponent(vnode, container) {
   const { tag } = vnode;
-  const $vnode = tag();
-  mount($vnode, container);
-  vnode.$el = $vnode.$el;
+  vnode.handle = {
+    prev: null,
+    next: vnode,
+    container,
+    update: () => {
+      const { data } = vnode.handle.next;
+      if (vnode.handle.prev) {
+        const { prev, next } = vnode.handle;
+        const { $tree: preVnode } = prev;
+        const nextVnode = (next.$tree = tag(data.props || {}));
+        patch(nextVnode, preVnode, container);
+      } else {
+        const $vnode = (vnode.$tree = tag(data.props || {}));
+        mount($vnode, container);
+        vnode.$el = $vnode.$el;
+      }
+    }
+  };
+
+  vnode.handle.update();
 }
 
 function mountPortal(vnode) {

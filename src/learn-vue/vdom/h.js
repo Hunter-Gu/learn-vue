@@ -29,7 +29,16 @@ interface VNode {
   data: VNodeData;
   childFlag;
   children: children,
-  target: string | HTMLElement
+  target: string | HTMLElement,
+  handle?: Handle; // 函数式组件特有
+  $tree?: VNode; // 函数式组件特有， 保存函数式组件生成的 VNode 对象
+}
+
+interface Handle {
+  prev: VNode;
+  next: VNode;
+  container: HTMLElement,
+  update: () => void; // 更新函数式组件状态
 }
 
 type BaseVNode = Omit<VNode, 'vnodeFlag' | 'childFlag'>
