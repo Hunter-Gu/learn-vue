@@ -43,5 +43,11 @@ module.exports = {
       .url(BASE_URL + "render-portal")
       .waitForElementVisible("span", 1000)
       .end();
+  },
+  "test render wrapped comp"(browser) {
+    browser
+      .url(BASE_URL + "render-wrapped-comp")
+      .waitForElementVisible("span", 1000)
+      .end();
   }
 };
