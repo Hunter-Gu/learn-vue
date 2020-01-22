@@ -111,5 +111,19 @@ module.exports = {
           browser.expect.elements("p").count.to.equal(2);
         });
       });
+  },
+  "test patch stateful component"(browser) {
+    const BEFORE = "before";
+    const AFTER = "after";
+    const classname = ".stateful-comp-" + BEFORE;
+
+    browser
+      .url(BASE_URL + "patch-comp")
+      .waitForElementVisible("span", 1000)
+      .waitForElementVisible(classname, 1000)
+      .waitForElementVisible("." + BEFORE, 1000)
+      .pause(3000, () => {
+        browser.waitForElementVisible("." + AFTER, 1000).end();
+      });
   }
 };
