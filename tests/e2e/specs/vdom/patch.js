@@ -125,5 +125,13 @@ module.exports = {
       .pause(3000, () => {
         browser.waitForElementVisible("." + AFTER, 1000).end();
       });
+  },
+  "test patch functional component"(browser) {
+    browser
+      .url(BASE_URL + "patch-functional-comp")
+      .waitForElementVisible(".before", 1000)
+      .pause(3000, () => {
+        browser.waitForElementVisible(".after", 1000).end();
+      });
   }
 };
