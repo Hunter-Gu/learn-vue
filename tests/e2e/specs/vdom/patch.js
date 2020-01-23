@@ -133,5 +133,17 @@ module.exports = {
       .pause(3000, () => {
         browser.waitForElementVisible(".after", 1000).end();
       });
+  },
+  "test patch wrapped component"(browser) {
+    const BEFORE = ".before";
+    const AFTER = ".after";
+    browser
+      .url(BASE_URL + "patch-wrapped-comp")
+      .waitForElementVisible(BEFORE, 1000)
+      .pause(3000, () => {
+        browser
+          .waitForElementNotPresent(BEFORE)
+          .waitForElementVisible(AFTER, 1000);
+      });
   }
 };
