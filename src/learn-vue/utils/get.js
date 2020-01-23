@@ -1,6 +1,10 @@
+import { isNil } from "./util";
+
 const PATH_SPLICE = ".";
 
-export default function get(target, path, defaultVal) {
+export function get(target, path, defaultVal) {
+  if (isNil(target)) return defaultVal;
+
   path = path.split(PATH_SPLICE);
   let key;
   while ((key = path.shift())) {
@@ -11,3 +15,5 @@ export default function get(target, path, defaultVal) {
 
   return target;
 }
+
+export default get;

@@ -14,10 +14,17 @@ export function isUndef(val) {
 }
 
 const KEY_FUNCTIONAL = "functional";
+/* istanbul ignore next */
 export function isFucntionalComp(target) {
   return isFunction(target) && target[KEY_FUNCTIONAL];
 }
 
+/* istanbul ignore next */
 export function hasOwn(target, key) {
   return Object.prototype.hasOwnProperty.call(target, key);
+}
+
+/* istanbul ignore next */
+export function isNil(val) {
+  return val === null || isUndef(val);
 }
