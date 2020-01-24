@@ -1,5 +1,6 @@
 import { isFucntionalComp, isFunction } from "../utils/util";
 import { ELEMENT_TYPE, FRAGMENT, PORTAL, CHILDREN_TYPE, SVG } from "./constant";
+import get from "../utils/get";
 /**
 
 type tag = string | Component | functionalComp;
@@ -29,6 +30,7 @@ interface VNode {
   vnodeFlag;
   data: VNodeData;
   childFlag;
+  key: string; // 在对 children 进行 patch 时的 diff 算法所需
   children: children,
   target: string | HTMLElement,
   $instance: StatefulComp; // 类式组件特有， 用于保存当前组件实例
@@ -62,6 +64,7 @@ export function h(tag, data, children) {
     _isVNode: true,
     tag,
     vnodeFlag,
+    key: get(data, "key", null),
     data: data || {},
     ...initChildren(children, isTextVNode)
   };

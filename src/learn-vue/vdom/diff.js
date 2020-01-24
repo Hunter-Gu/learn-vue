@@ -1,27 +1,18 @@
 import { patch } from "./patch";
-import { mount } from "./render";
 
 /**
- * @description 只在 children.length > 1 并且 prevChildren.length > 1 时有效
- *              将新、 旧 children 中相同位置的节点进行 `patch()` 操作， 节省“移除”和“创建”操作
- * @warn 注意， 只适用于新、 旧 children 长度相同的情况
+ * @description 最佳的方式是通过移动节点来达到目的， 因为这样的场景更多
+ *              关键是在新、 旧节点中保存映射关系， 以便找到可复用节点 ---> key
+ * @warn 双层 for 循环 T(n) = O(n^2)
  */
 export function diff(children, prevChildren, container) {
-  const len =
-    children.length < prevChildren.length ? children.length : prevChildren;
-  // 先处理较小的值
-  for (let i = 0; i < len; i++) {
-    patch(children[i], prevChildren[i], container);
-  }
-
-  // 对剩下的进行操作， 挂载新的或者移除旧的
-  if (children.length > prevChildren.length) {
-    for (let i = len; i < children.length; i++) {
-      mount(children[i], container);
-    }
-  } else {
-    for (let i = len; i < prevChildren.length; i++) {
-      container.removeChild(prevChildren[i].$el);
+  for (let i = 0; i < children; i++) {
+    const vnode = children[i];
+    for (let j = 0; j < prevChildren; j++) {
+      const prevVnode = prevChildren[j];
+      if (vnode.key === prevVnode.key) {
+        patch(vnode, prevVnode, container);
+      }
     }
   }
 }
