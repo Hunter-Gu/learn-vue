@@ -1,4 +1,5 @@
 import { patch } from "./patch";
+import { mount } from "./render";
 
 /**
  * @description 寻找最大索引， 该方式以 children 中的第一个节点为基准
@@ -8,9 +9,11 @@ export function diff(children, prevChildren, container) {
   let lastIndex = 0;
   for (let i = 0; i < children.length; i++) {
     const vnode = children[i];
+    let find = false;
     for (let j = 0; j < prevChildren.length; j++) {
       const prevVnode = prevChildren[j];
       if (vnode.key === prevVnode.key) {
+        find = true;
         patch(vnode, prevVnode, container);
         if (j < lastIndex) {
           // 节点被移动了
@@ -29,6 +32,22 @@ export function diff(children, prevChildren, container) {
           lastIndex = j;
         }
       }
+    }
+
+    if (!find) {
+      // i === 0 时， 新节点是第一个节点
+      const refNode = i ? children[i - 1].$el.nextSibling : prevChildren[i].$el;
+      mount(vnode, container, refNode);
+    }
+  }
+
+  // 移除多余的节点
+  for (let i = 0; i < prevChildren.length; i++) {
+    const prevVnode = prevChildren[i];
+    const find = children.find(child => child.key === prevVnode.key);
+
+    if (!find) {
+      container.removeChild(prevVnode.$el);
     }
   }
 }

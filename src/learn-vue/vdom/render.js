@@ -25,11 +25,11 @@ export function render(vnode, container) {
   container.vnode = vnode || null;
 }
 
-export function mount(vnode, container) {
+export function mount(vnode, container, refNode) {
   const { vnodeFlag } = vnode;
 
   if (vnodeFlag & IS_HTML_ELEMENT) {
-    mountElement(vnode, container);
+    mountElement(vnode, container, refNode);
   } else if (vnodeFlag & IS_COMPONENT_ELEMENT) {
     mountComponent(vnode, container);
   } else if (vnodeFlag & ELEMENT_TYPE.PORTAL) {
@@ -41,7 +41,7 @@ export function mount(vnode, container) {
   }
 }
 
-function mountElement(vnode, container) {
+function mountElement(vnode, container, refNode) {
   const { tag, vnodeFlag, childFlag, children, data } = vnode;
 
   const isSVG = vnodeFlag & ELEMENT_TYPE.SVG_ELEMENT;
@@ -52,7 +52,12 @@ function mountElement(vnode, container) {
 
   initVnodeData(data, el);
   _mountChildren(childFlag, children, el);
-  container.appendChild(el);
+
+  if (refNode) {
+    container.insertBefore(el, refNode);
+  } else {
+    container.appendChild(el);
+  }
 }
 
 function mountComponent(vnode, container) {
