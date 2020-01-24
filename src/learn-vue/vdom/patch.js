@@ -7,6 +7,7 @@ import {
   query
 } from "./constant";
 import { patchVnodeData } from "./vnode-data";
+import { diff } from "./diff";
 
 export function patch(vnode, prevVnode, container) {
   const { vnodeFlag } = vnode;
@@ -129,10 +130,6 @@ function _patchChildren(
     // both have one new children and one old children
     patch(children[0], prevChildren[0], container);
   } else {
-    // TODO: optimize by key
-    prevChildren
-      .map(child => child.$el)
-      .forEach(container.removeChild.bind(container));
-    _mountChildren(childFlag, children, container);
+    diff(children, prevChildren, container);
   }
 }
