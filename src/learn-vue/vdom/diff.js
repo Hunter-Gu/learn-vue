@@ -2,52 +2,80 @@ import { patch } from "./patch";
 import { mount } from "./render";
 
 /**
- * @description 寻找最大索引， 该方式以 children 中的第一个节点为基准
+ * @description 双端比较， 从 children 和 prevChildren 的两端开始比较
+ *              四个索引：
+ *                - 1.oldStartIdx
+ *                - 2.oldEndIdx
+ *                - 3.newStartIdx
+ *                - 4.newEndIdx
  */
 export function diff(children, prevChildren, container) {
-  // 最大索引
-  let lastIndex = 0;
-  for (let i = 0; i < children.length; i++) {
-    const vnode = children[i];
-    let find = false;
-    for (let j = 0; j < prevChildren.length; j++) {
-      const prevVnode = prevChildren[j];
-      if (vnode.key === prevVnode.key) {
-        find = true;
-        patch(vnode, prevVnode, container);
-        if (j < lastIndex) {
-          // 节点被移动了
-          // prev       a b c
-          // next           c b a
-          // idx            2 1 0
-          // lastIndex      2 2 2
+  let oldStartIdx = 0;
+  let oldEndIdx = prevChildren.length - 1;
+  let newStartIdx = 0;
+  let newEndIdx = children.length - 1;
 
-          // 1.children 中的第一个节点不处理
-          // 2.之后的节点， 插入到第一个节点的后面
-          // 为什么需要 nextSibling？
-          // 因为新节点需要插到第一个节点的后面， 也就是第一个节点的下一个兄弟节点的前面
-          const refNode = children[i - 1].$el.nextSibling;
-          container.insertBefore(prevVnode.$el, refNode);
-        } else {
-          lastIndex = j;
-        }
+  let oldStartVnode = prevChildren[oldStartIdx];
+  let oldEndVnode = prevChildren[oldEndIdx];
+  let newStartVnode = children[newStartIdx];
+  let newEndVnode = children[newEndIdx];
+
+  while (oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx) {
+    // oldStartIdx 和 oldEndIdx 总会有一个先达到 undefined
+    if (!oldStartVnode) {
+      oldStartVnode = prevChildren[++oldStartIdx];
+    } else if (!oldEndVnode) {
+      oldEndVnode = prevChildren[--oldEndIdx];
+    } else if (oldStartVnode.key === newStartVnode.key) {
+      patch(newStartVnode, oldStartVnode, container);
+      // 都是第一个节点， 不需要移动位置
+      oldStartVnode = prevChildren[++oldStartIdx];
+      newStartVnode = children[++newStartIdx];
+    } else if (oldStartVnode.key === newEndVnode.key) {
+      patch(newEndVnode, oldStartVnode, container);
+      container.insertBefore(oldStartVnode.$el, oldEndVnode.$el.nextSibling);
+      oldStartVnode = prevChildren[++oldStartIdx];
+      newEndVnode = children[--newEndIdx];
+    } else if (oldEndVnode.key === newStartVnode.key) {
+      patch(newStartVnode, oldEndVnode, container);
+      container.insertBefore(oldEndVnode.$el, oldStartVnode.$el);
+      oldEndVnode = prevChildren[--oldEndIdx];
+      newStartVnode = children[++newStartIdx];
+    } else if (oldEndVnode.key === newEndVnode.key) {
+      patch(newEndVnode, oldEndVnode, container);
+      // 都是最后一个节点， 不需要移动位置
+      oldEndVnode = prevChildren[--oldEndIdx];
+      newEndVnode = children[--newEndIdx];
+    } else {
+      // 处理不是双端元素时， 以 newStartVnode 为基准
+      // 核心：
+      //      - 对比时， 以 children(newStartVnode) 为基准
+      //      - 插入时， 以 prevChildren(oldStartVnode) 为基准
+      const idxInOld = prevChildren.findIndex(
+        node => node && node.key === newStartVnode.key
+      );
+
+      if (idxInOld >= 0) {
+        // 将该元素移动到最前面
+        const vnode = prevChildren[idxInOld];
+        patch(newStartVnode, vnode, container);
+        container.insertBefore(vnode.$el, oldStartVnode.$el);
+        prevChildren[idxInOld] = undefined;
+      } else {
+        // 新节点
+        mount(newStartVnode, container, oldStartVnode.$el);
       }
-    }
-
-    if (!find) {
-      // i === 0 时， 新节点是第一个节点
-      const refNode = i ? children[i - 1].$el.nextSibling : prevChildren[i].$el;
-      mount(vnode, container, refNode);
+      newStartVnode = children[++newStartIdx];
     }
   }
-
-  // 移除多余的节点
-  for (let i = 0; i < prevChildren.length; i++) {
-    const prevVnode = prevChildren[i];
-    const find = children.find(child => child.key === prevVnode.key);
-
-    if (!find) {
-      container.removeChild(prevVnode.$el);
+  // 挂载没有被处理的新节点
+  if (oldEndIdx < oldStartIdx) {
+    for (let i = newStartIdx; i <= newEndIdx; i++) {
+      mount(children[i], container, oldStartVnode.$el);
+    }
+  } else if (newEndIdx < newStartIdx) {
+    for (let i = oldStartIdx; i <= oldEndIdx; i++) {
+      container.removeChild(prevChildren[i].$el);
     }
   }
 }
