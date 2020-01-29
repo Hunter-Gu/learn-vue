@@ -2,13 +2,18 @@ import {
   ELEMENT_TYPE,
   IS_HTML_ELEMENT,
   IS_COMPONENT_ELEMENT,
-  CHILDREN_TYPE,
-  createElement,
-  createTextNode,
-  query
+  CHILDREN_TYPE
 } from "./constant";
 import { initVnodeData } from "./vnode-data";
 import { patch } from "./patch";
+import {
+  query,
+  createElement,
+  createTextNode,
+  removeChild,
+  insertBefore,
+  appendChild
+} from "@/learn-vue/platform/web";
 
 export function render(vnode, container) {
   const { vnode: preVnode } = container;
@@ -16,7 +21,7 @@ export function render(vnode, container) {
     if (vnode) {
       patch(vnode, preVnode, container);
     } else {
-      container.removeChild(preVnode.$el);
+      removeChild(container, preVnode.$el);
     }
   } else if (vnode) {
     mount(vnode, container);
@@ -46,17 +51,15 @@ function mountElement(vnode, container, refNode) {
 
   const isSVG = vnodeFlag & ELEMENT_TYPE.SVG_ELEMENT;
 
-  const el = (vnode.$el = isSVG
-    ? document.createElementNS("http://www.w3.org/1000/svg", tag)
-    : createElement(tag));
+  const el = (vnode.$el = createElement(tag, isSVG));
 
   initVnodeData(data, el);
   _mountChildren(childFlag, children, el);
 
   if (refNode) {
-    container.insertBefore(el, refNode);
+    insertBefore(container, el, refNode);
   } else {
-    container.appendChild(el);
+    appendChild(container, el);
   }
 }
 
@@ -155,7 +158,7 @@ function mountFragment(vnode, container) {
 function mountText(vnode, container) {
   const el = (vnode.$el = createTextNode(vnode.children));
 
-  container.appendChild(el);
+  appendChild(container, el);
 }
 
 export function _mountChildren(childFlag, children, container) {
@@ -164,6 +167,6 @@ export function _mountChildren(childFlag, children, container) {
   } else if (childFlag & CHILDREN_TYPE.MULTIPLE_CHILDREN) {
     children.forEach(child => mount(child, container));
   } else {
-    container.appendChild(createTextNode(""));
+    appendChild(container, createTextNode(""));
   }
 }

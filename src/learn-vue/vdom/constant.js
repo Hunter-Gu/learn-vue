@@ -33,18 +33,6 @@ export const FRAGMENT = Symbol();
 
 export const PORTAL = Symbol();
 
-// platform api
-const doc = document;
-
-/* istanbul ignore next */
-export const createElement = (...args) => doc.createElement(...args);
-
-/* istanbul ignore next */
-export const createTextNode = (...args) => doc.createTextNode(...args);
-
-/* istanbul ignore next */
-export const query = (...args) => doc.querySelector(...args);
-
 /* istanbul ignore next */
 export const VNODE_DATA_KEY = {
   ATTRS: "attrs",

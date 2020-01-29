@@ -1,5 +1,10 @@
 import { patch } from "./patch";
 import { mount } from "./render";
+import {
+  insertBefore,
+  removeChild,
+  nextSibling
+} from "@/learn-vue/platform/web";
 
 /**
  * @description 双端比较， 从 children 和 prevChildren 的两端开始比较
@@ -33,12 +38,12 @@ export function diff(children, prevChildren, container) {
       newStartVnode = children[++newStartIdx];
     } else if (oldStartVnode.key === newEndVnode.key) {
       patch(newEndVnode, oldStartVnode, container);
-      container.insertBefore(oldStartVnode.$el, oldEndVnode.$el.nextSibling);
+      insertBefore(container, oldStartVnode.$el, nextSibling(oldEndVnode.$el));
       oldStartVnode = prevChildren[++oldStartIdx];
       newEndVnode = children[--newEndIdx];
     } else if (oldEndVnode.key === newStartVnode.key) {
       patch(newStartVnode, oldEndVnode, container);
-      container.insertBefore(oldEndVnode.$el, oldStartVnode.$el);
+      insertBefore(container, oldEndVnode.$el, oldStartVnode.$el);
       oldEndVnode = prevChildren[--oldEndIdx];
       newStartVnode = children[++newStartIdx];
     } else if (oldEndVnode.key === newEndVnode.key) {
@@ -59,7 +64,7 @@ export function diff(children, prevChildren, container) {
         // 将该元素移动到最前面
         const vnode = prevChildren[idxInOld];
         patch(newStartVnode, vnode, container);
-        container.insertBefore(vnode.$el, oldStartVnode.$el);
+        insertBefore(container, vnode.$el, oldStartVnode.$el);
         prevChildren[idxInOld] = undefined;
       } else {
         // 新节点
@@ -75,7 +80,7 @@ export function diff(children, prevChildren, container) {
     }
   } else if (newEndIdx < newStartIdx) {
     for (let i = oldStartIdx; i <= oldEndIdx; i++) {
-      container.removeChild(prevChildren[i].$el);
+      removeChild(container, prevChildren[i].$el);
     }
   }
 }

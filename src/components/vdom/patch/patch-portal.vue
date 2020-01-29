@@ -5,9 +5,10 @@
 </template>
 
 <script>
-import { query, PORTAL } from "@/learn-vue/vdom/constant";
+import { PORTAL } from "@/learn-vue/vdom/constant";
 import { h } from "../../../learn-vue/vdom/h";
 import { render } from "../../../learn-vue/vdom/render";
+import { query } from "@/learn-vue/platform/web";
 
 export default {
   name: "PatchPortal",

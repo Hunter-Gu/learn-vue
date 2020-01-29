@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { query } from "@/learn-vue/vdom/constant";
+import { query } from "@/learn-vue/platform/web";
 import { h } from "../../../learn-vue/vdom/h";
 import { render } from "../../../learn-vue/vdom/render";
 

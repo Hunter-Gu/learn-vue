@@ -3,11 +3,11 @@ import {
   ELEMENT_TYPE,
   IS_HTML_ELEMENT,
   IS_COMPONENT_ELEMENT,
-  CHILDREN_TYPE,
-  query
+  CHILDREN_TYPE
 } from "./constant";
 import { patchVnodeData } from "./vnode-data";
 import { diff } from "./diff";
+import { query, removeChild, setText } from "@/learn-vue/platform/web";
 
 export function patch(vnode, prevVnode, container) {
   const { vnodeFlag } = vnode;
@@ -102,12 +102,12 @@ function _patchText(vnode, prevVnode) {
   // modify type of `TEXT_NODE` node's content by domProp `nodeValue`
   // and text is created by `createTextNode()` API in virtual dom
   if (vnode.children !== prevVnode.children) {
-    el.nodeValue = vnode.children;
+    setText(el, vnode.children);
   }
 }
 
 function replaceVNode(vnode, prevVNode, container) {
-  container.removeChild(prevVNode.$el);
+  removeChild(container, prevVNode.$el);
   mount(vnode, container);
 }
 
@@ -122,7 +122,7 @@ function _patchChildren(
     // have no new children
     prevChildren
       .map(child => child.$el)
-      .forEach(container.removeChild.bind(container));
+      .forEach(el => removeChild(container, el));
   } else if (prevChildFlag & CHILDREN_TYPE.NO_CHILDREN) {
     // only have new children and have no old children
     _mountChildren(childFlag, children, container);
