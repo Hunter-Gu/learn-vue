@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Vue 源码学习 | Vue 源码学习</title>
+    <meta name="description" content="">
+    <meta name="generator" content="VuePress 1.4.0">
+    
+    
+    <link rel="preload" href="/learn-vue/assets/css/0.styles.33981bc7.css" as="style"><link rel="preload" href="/learn-vue/assets/js/app.6e893172.js" as="script"><link rel="preload" href="/learn-vue/assets/js/2.169b38d7.js" as="script"><link rel="preload" href="/learn-vue/assets/js/14.4a288b15.js" as="script"><link rel="prefetch" href="/learn-vue/assets/js/10.da277041.js"><link rel="prefetch" href="/learn-vue/assets/js/11.97a01458.js"><link rel="prefetch" href="/learn-vue/assets/js/12.fe0acb2a.js"><link rel="prefetch" href="/learn-vue/assets/js/13.3fed5f80.js"><link rel="prefetch" href="/learn-vue/assets/js/15.82ca4049.js"><link rel="prefetch" href="/learn-vue/assets/js/16.4d303af1.js"><link rel="prefetch" href="/learn-vue/assets/js/17.d39763e6.js"><link rel="prefetch" href="/learn-vue/assets/js/18.6e7ab091.js"><link rel="prefetch" href="/learn-vue/assets/js/19.763c6d2b.js"><link rel="prefetch" href="/learn-vue/assets/js/20.73645786.js"><link rel="prefetch" href="/learn-vue/assets/js/21.d1c16ae8.js"><link rel="prefetch" href="/learn-vue/assets/js/3.d4c2cb0b.js"><link rel="prefetch" href="/learn-vue/assets/js/4.562e53b5.js"><link rel="prefetch" href="/learn-vue/assets/js/5.2e347860.js"><link rel="prefetch" href="/learn-vue/assets/js/6.96b8901f.js"><link rel="prefetch" href="/learn-vue/assets/js/7.b2e92af0.js"><link rel="prefetch" href="/learn-vue/assets/js/8.3c9bdc9b.js"><link rel="prefetch" href="/learn-vue/assets/js/9.802ceecf.js">
+    <link rel="stylesheet" href="/learn-vue/assets/css/0.styles.33981bc7.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/learn-vue/" class="home-link router-link-exact-active router-link-active"><!----> <span class="site-name">Vue 源码学习</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"> <a href="https://github.com/Hunter-Gu/learn-vue" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"> <a href="https://github.com/Hunter-Gu/learn-vue" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><a href="/learn-vue/observe.html" class="sidebar-link">变化监测</a></li><li><a href="/learn-vue/watch.html" class="sidebar-link">$watch</a></li><li><a href="/learn-vue/data-and-props.html" class="sidebar-link">data &amp; props</a></li><li><a href="/learn-vue/set-and-delete.html" class="sidebar-link">$set &amp; $delete</a></li><li><a href="/learn-vue/computed-and-watch.html" class="sidebar-link">computed &amp; watch</a></li><li><a href="/learn-vue/template-compiler.html" class="sidebar-link">模板编译</a></li><li><a href="/learn-vue/virtual-dom.html" class="sidebar-link">虚拟 DOM</a></li><li><a href="/learn-vue/mount-component.html" class="sidebar-link">组件的挂载、更新和销毁</a></li><li><a href="/learn-vue/async-queue.html" class="sidebar-link">异步更新队列</a></li><li><a href="/learn-vue/event.html" class="sidebar-link">事件机制</a></li><li><a href="/learn-vue/filter.html" class="sidebar-link">filter 的本质</a></li><li><a href="/learn-vue/directive.html" class="sidebar-link">指令的奥秘</a></li><li><a href="/learn-vue/slot.html" class="sidebar-link">slot</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="vue-源码学习"><a href="#vue-源码学习" class="header-anchor">#</a> Vue 源码学习</h1> <blockquote><p>记录我学习 <code>Vue</code> 源码的过程。</p></blockquote> <h2 id="前提"><a href="#前提" class="header-anchor">#</a> 前提</h2> <p>看源码是有前提的，你需要对框架足够熟悉了再去看，大致可以分为如下几个问题。</p> <p><strong><code>Vue</code> 解决了什么问题?</strong></p> <ul><li>组件化</li> <li>声明式渲染</li> <li>MVVM</li></ul> <p><strong><code>Vue</code> 的设计思想是什么？</strong></p> <ul><li>响应式数据</li></ul> <p><strong><code>Vue</code> 有哪些主要的功能点？</strong></p> <ul><li>变化监测</li> <li>模板编译</li> <li>虚拟 DOM</li></ul> <h2 id="准备"><a href="#准备" class="header-anchor">#</a> 准备</h2> <h3 id="项目目录"><a href="#项目目录" class="header-anchor">#</a> 项目目录</h3> <p><code>Vue</code> 的仓库采用了 monorepo 的方式，也就是所有相关的项目都在这个仓库中，我们熟悉的 <code>vue-template-compiler</code> 就在其中，具体有哪些在 /package 中都可以看到，下面是一些主要的文件夹及其对应的功能：</p> <div class="language- extra-class"><pre class="language-text"><code>/vue
+  ├── /flow                                     # flow 的声明文件
+  ├── /packages                                 # 相关项目，如 vue-template-compiler
+  ├── /scripts                                  # 构建、发布相关的脚本
+  ├── /src
+        ├── /compiler                           # 模板编译
+        ├── /core                               # 核心代码
+                ├── /components                 # 全局内置组件，目前只包括 `keep-alive`
+                ├── /global-api                 # 定义 `Vue` 上的 API
+                ├── /instance                   # 定义 `Vue.prototype` 上的 API
+                ├── /observer                   # 响应式
+                ├── /util                       # core 文件夹下的工具函数
+                ├── /vdom                       # 虚拟 dom
+        ├── /platforms                          # 不同平台的支持
+                ├── /web
+                      ├── /compiler             # web 平台下，模板编译支持的属性和指令，如 `v-model`，`v-text` 等
+                      ├── /runtime              # web 平台下，运行时支持的属性和指令，如 `transition`,`style`, `v-model` 等
+                      ├── /server               # 服务端渲染
+                      ├── /util                 # web 平台下的工具含糊
+                      ├── entry-xxx.js          # 不同版本的入口文件，如包括运行时编译的 entry-runtime-with-compiler.js
+                ├── /weex
+      ├── /server                               # 服务端渲染
+      ├── /sfc                                  # .vue 文件解析
+      ├── /shared                               # 共享代码
+├── /test                                       # 测试用例
+├── /types                                      # ts 类型声明文件
+</code></pre></div><h3 id="构建"><a href="#构建" class="header-anchor">#</a> 构建</h3> <p>以 Runtime+Compiler 版本为例，是以 <code>src/platforms/web/entry-runtime-with-compiler.js</code> 为入口开始构建的，通过注入的方式为特定环境添加特定的功能，如：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> mount <span class="token operator">=</span> <span class="token class-name">Vue</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>$mount
+
+<span class="token comment">// 注入当前版本特定的</span>
+<span class="token comment">// 该函数中调用了 compiler</span>
+<span class="token class-name">Vue</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function-variable function">$mount</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">el<span class="token punctuation">,</span> hydrating</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// ...</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="核心模块"><a href="#核心模块" class="header-anchor">#</a> 核心模块</h2> <p>我看的版本是 2.5.18-beta.0 版本的，但其实更好的方式是看早期版本，如 1.0 或者更早的，因为那时候是比较纯粹的，现在的版本会有许多折中可能不太适合阅读。</p> <p>我将 Vue 的核心分为如下模块，在看代码时采取分块阅读的方式：</p> <ul><li>变化监测</li> <li>模板编译</li> <li>虚拟 DOM</li></ul></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/learn-vue/assets/js/app.6e893172.js" defer></script><script src="/learn-vue/assets/js/2.169b38d7.js" defer></script><script src="/learn-vue/assets/js/14.4a288b15.js" defer></script>
+  </body>
+</html>

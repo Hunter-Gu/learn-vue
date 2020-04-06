@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>指令的奥秘 | Vue 源码学习</title>
+    <meta name="description" content="">
+    <meta name="generator" content="VuePress 1.4.0">
+    
+    
+    <link rel="preload" href="/learn-vue/assets/css/0.styles.33981bc7.css" as="style"><link rel="preload" href="/learn-vue/assets/js/app.6e893172.js" as="script"><link rel="preload" href="/learn-vue/assets/js/2.169b38d7.js" as="script"><link rel="preload" href="/learn-vue/assets/js/11.97a01458.js" as="script"><link rel="prefetch" href="/learn-vue/assets/js/10.da277041.js"><link rel="prefetch" href="/learn-vue/assets/js/12.fe0acb2a.js"><link rel="prefetch" href="/learn-vue/assets/js/13.3fed5f80.js"><link rel="prefetch" href="/learn-vue/assets/js/14.4a288b15.js"><link rel="prefetch" href="/learn-vue/assets/js/15.82ca4049.js"><link rel="prefetch" href="/learn-vue/assets/js/16.4d303af1.js"><link rel="prefetch" href="/learn-vue/assets/js/17.d39763e6.js"><link rel="prefetch" href="/learn-vue/assets/js/18.6e7ab091.js"><link rel="prefetch" href="/learn-vue/assets/js/19.763c6d2b.js"><link rel="prefetch" href="/learn-vue/assets/js/20.73645786.js"><link rel="prefetch" href="/learn-vue/assets/js/21.d1c16ae8.js"><link rel="prefetch" href="/learn-vue/assets/js/3.d4c2cb0b.js"><link rel="prefetch" href="/learn-vue/assets/js/4.562e53b5.js"><link rel="prefetch" href="/learn-vue/assets/js/5.2e347860.js"><link rel="prefetch" href="/learn-vue/assets/js/6.96b8901f.js"><link rel="prefetch" href="/learn-vue/assets/js/7.b2e92af0.js"><link rel="prefetch" href="/learn-vue/assets/js/8.3c9bdc9b.js"><link rel="prefetch" href="/learn-vue/assets/js/9.802ceecf.js">
+    <link rel="stylesheet" href="/learn-vue/assets/css/0.styles.33981bc7.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/learn-vue/" class="home-link router-link-active"><!----> <span class="site-name">Vue 源码学习</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"> <a href="https://github.com/Hunter-Gu/learn-vue" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"> <a href="https://github.com/Hunter-Gu/learn-vue" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><a href="/learn-vue/observe.html" class="sidebar-link">变化监测</a></li><li><a href="/learn-vue/watch.html" class="sidebar-link">$watch</a></li><li><a href="/learn-vue/data-and-props.html" class="sidebar-link">data &amp; props</a></li><li><a href="/learn-vue/set-and-delete.html" class="sidebar-link">$set &amp; $delete</a></li><li><a href="/learn-vue/computed-and-watch.html" class="sidebar-link">computed &amp; watch</a></li><li><a href="/learn-vue/template-compiler.html" class="sidebar-link">模板编译</a></li><li><a href="/learn-vue/virtual-dom.html" class="sidebar-link">虚拟 DOM</a></li><li><a href="/learn-vue/mount-component.html" class="sidebar-link">组件的挂载、更新和销毁</a></li><li><a href="/learn-vue/async-queue.html" class="sidebar-link">异步更新队列</a></li><li><a href="/learn-vue/event.html" class="sidebar-link">事件机制</a></li><li><a href="/learn-vue/filter.html" class="sidebar-link">filter 的本质</a></li><li><a href="/learn-vue/directive.html" class="active sidebar-link">指令的奥秘</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/learn-vue/directive.html#格式化" class="sidebar-link">格式化</a></li><li class="sidebar-sub-header"><a href="/learn-vue/directive.html#模板编译时解析" class="sidebar-link">模板编译时解析</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/learn-vue/directive.html#指令的修饰符和参数" class="sidebar-link">指令的修饰符和参数</a></li></ul></li><li class="sidebar-sub-header"><a href="/learn-vue/directive.html#指令的本质" class="sidebar-link">指令的本质</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/learn-vue/directive.html#create-bind-inserted" class="sidebar-link">create - bind &amp; inserted</a></li><li class="sidebar-sub-header"><a href="/learn-vue/directive.html#update-update-componentupdated" class="sidebar-link">update - update &amp; componentUpdated</a></li><li class="sidebar-sub-header"><a href="/learn-vue/directive.html#destroy-unbind" class="sidebar-link">destroy - unbind</a></li></ul></li><li class="sidebar-sub-header"><a href="/learn-vue/directive.html#总结" class="sidebar-link">总结</a></li></ul></li><li><a href="/learn-vue/slot.html" class="sidebar-link">slot</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="指令的奥秘"><a href="#指令的奥秘" class="header-anchor">#</a> 指令的奥秘</h1> <p>指令的本质/奥秘是什么？</p> <ul><li><code>v-if</code>是怎么实现的？</li> <li><code>v-for</code>是怎么实现的？</li> <li><code>v-model</code>是怎么实现的?</li> <li><code>v-on</code>是怎么实现的?</li> <li><code>v-bind</code>是怎么实现的?</li></ul> <p>指令的处理会贯穿 <code>Vue</code> 内部的各个核心技术点：</p> <div class="spinner" style="background:rgb(66, 185, 131);" data-v-1bbcb91a></div><h2 id="格式化"><a href="#格式化" class="header-anchor">#</a> 格式化</h2> <p>由于指令支持函数和对象类型，所以在初始化时格式化为对象类型：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">function</span> <span class="token function">normalizeDirectives</span><span class="token punctuation">(</span><span class="token parameter">directives</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>directives<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> key <span class="token keyword">in</span> directives<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> def <span class="token operator">=</span> directives<span class="token punctuation">[</span>key<span class="token punctuation">]</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> def <span class="token operator">===</span> <span class="token string">'function'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 转换为对象形式</span>
+        directives<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+          bind<span class="token operator">:</span> def<span class="token punctuation">,</span>
+          update<span class="token operator">:</span> def
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>可以看到，<code>bind</code> 和 <code>update</code> 两个钩子是一定会有的，之后会介绍它们在何时触发。</p> <h2 id="模板编译时解析"><a href="#模板编译时解析" class="header-anchor">#</a> 模板编译时解析</h2> <p>在模板编译阶段，会对指令进行一些处理，把指令添加到当前 AST 节点的指令栈（<code>directives</code> 属性）中：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// el 是 VNode 节点对象</span>
+<span class="token comment">// value 是绑定的值</span>
+<span class="token keyword">const</span> attrsList <span class="token operator">=</span> el<span class="token punctuation">.</span>attrsList
+
+<span class="token keyword">const</span> dirRe <span class="token operator">=</span> <span class="token regex">/^v-/</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> attrsList<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> name <span class="token operator">=</span> attrsList<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>name
+  <span class="token keyword">const</span> value <span class="token operator">=</span> attrsList<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>value
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>dirRe<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    name <span class="token operator">=</span> name<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span>dirRe<span class="token punctuation">,</span> <span class="token string">''</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>el<span class="token punctuation">.</span>directives<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      el<span class="token punctuation">.</span>directives <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+
+    el<span class="token punctuation">.</span>directives<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      name<span class="token punctuation">,</span>
+      value
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="指令的修饰符和参数"><a href="#指令的修饰符和参数" class="header-anchor">#</a> 指令的修饰符和参数</h3> <p>和<a href="/learn-vue/event.html#修饰符">事件</a>一样，指令也同样支持修饰符，解析方式也是和<a href="/learn-vue/event.html#修饰符">事件的修饰符</a>一模一样：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> modifierRe <span class="token operator">=</span> <span class="token regex">/\.[^.]+/g</span>
+<span class="token keyword">function</span> <span class="token function">parseModifier</span><span class="token punctuation">(</span><span class="token parameter">name</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> match <span class="token operator">=</span> name<span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span>modifierRe<span class="token punctuation">)</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>match<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> ret <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+    match<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token parameter">m</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+      ret<span class="token punctuation">[</span>m<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">return</span> ret
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>参数的解析也很类似：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> argRe <span class="token operator">=</span> <span class="token regex">/:(.*)$/</span>
+<span class="token keyword">function</span> <span class="token function">parseArg</span><span class="token punctuation">(</span><span class="token parameter">name</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> match <span class="token operator">=</span> name<span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span>argRe<span class="token punctuation">)</span>
+  <span class="token keyword">return</span> match <span class="token operator">&amp;&amp;</span> match<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>但是参数还支持动态参数，所以需要对该函数进行修改：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> argRe <span class="token operator">=</span> <span class="token regex">/:(.*)$/</span>
+<span class="token keyword">const</span> dynamicArgRe <span class="token operator">=</span> <span class="token regex">/^\[.*\]$/</span>
+<span class="token keyword">function</span> <span class="token function">parseArg</span><span class="token punctuation">(</span><span class="token parameter">name</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> match <span class="token operator">=</span> name<span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span>argRe<span class="token punctuation">)</span>
+  <span class="token keyword">let</span> arg <span class="token operator">=</span> match <span class="token operator">&amp;&amp;</span> match<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
+  <span class="token keyword">let</span> isDynamic <span class="token operator">=</span> <span class="token boolean">false</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>arg<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    name <span class="token operator">=</span> name<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token punctuation">(</span>arg<span class="token punctuation">.</span>length <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>dynamicArgRe<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      arg <span class="token operator">=</span> arg<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+      isDynamic <span class="token operator">=</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">{</span> arg<span class="token punctuation">,</span> isDynamic <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>所以，<strong>最终解析指令的代码</strong>为：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// el 是 VNode 节点对象</span>
+<span class="token comment">// value 是绑定的值</span>
+<span class="token keyword">const</span> attrsList <span class="token operator">=</span> el<span class="token punctuation">.</span>attrsList
+
+<span class="token keyword">const</span> dirRe <span class="token operator">=</span> <span class="token regex">/^v-/</span>
+<span class="token keyword">const</span> modifierRe <span class="token operator">=</span> <span class="token regex">/\.[^.]+/g</span>
+<span class="token keyword">const</span> argRe <span class="token operator">=</span> <span class="token regex">/:(.*)$/</span>
+<span class="token keyword">const</span> dynamicArgRe <span class="token operator">=</span> <span class="token regex">/^\[.*\]$/</span>
+
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> attrsList<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> name <span class="token operator">=</span> attrsList<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>name
+  <span class="token keyword">const</span> value <span class="token operator">=</span> attrsList<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>value
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>dirRe<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    name <span class="token operator">=</span> name<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span>dirRe<span class="token punctuation">,</span> <span class="token string">''</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">const</span> modifier <span class="token operator">=</span> <span class="token function">parseModifier</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>modifier<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      name <span class="token operator">=</span> name<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span>modifierRe<span class="token punctuation">,</span> <span class="token string">''</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">const</span> <span class="token punctuation">{</span> arg<span class="token punctuation">,</span> isDynamic<span class="token punctuation">,</span> name<span class="token operator">:</span> _name <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">parseArg</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>arg<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      name <span class="token operator">=</span> _name
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>el<span class="token punctuation">.</span>directives<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      el<span class="token punctuation">.</span>directives <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+
+    el<span class="token punctuation">.</span>directives<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      name<span class="token punctuation">,</span>
+      value<span class="token punctuation">,</span>
+      modifier<span class="token punctuation">,</span>
+      arg<span class="token punctuation">,</span>
+      isDynamic
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">parseModifier</span><span class="token punctuation">(</span><span class="token parameter">name</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> match <span class="token operator">=</span> name<span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span>modifierRe<span class="token punctuation">)</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>match<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> ret <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+    match<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token parameter">m</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+      ret<span class="token punctuation">[</span>m<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">return</span> ret
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">parseArg</span><span class="token punctuation">(</span><span class="token parameter">name</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> match <span class="token operator">=</span> name<span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span>argRe<span class="token punctuation">)</span>
+  <span class="token keyword">let</span> arg <span class="token operator">=</span> match <span class="token operator">&amp;&amp;</span> match<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
+  <span class="token keyword">let</span> isDynamic <span class="token operator">=</span> <span class="token boolean">false</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>arg<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    name <span class="token operator">=</span> name<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token punctuation">(</span>arg<span class="token punctuation">.</span>length <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>dynamicArgRe<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      arg <span class="token operator">=</span> arg<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+      isDynamic <span class="token operator">=</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">{</span> arg<span class="token punctuation">,</span> isDynamic<span class="token punctuation">,</span> name <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="指令的本质"><a href="#指令的本质" class="header-anchor">#</a> 指令的本质</h2> <p>指令的本质是 <code>VNode</code>? 节点的钩子函数。实际上 <code>transition</code> 组件、<code>class</code> 和 <code>style</code> 的特殊处理都是通过类似的方式。</p> <p><code>Vue</code> 内部对指令定义了如下三个钩子函数：</p> <ul><li><code>create</code></li> <li><code>update</code></li> <li><code>destroy</code></li></ul> <h3 id="create-bind-inserted"><a href="#create-bind-inserted" class="header-anchor">#</a> <code>create</code> - <code>bind</code> &amp; <code>inserted</code></h3> <p>当一个节点被创建后，就会触发 <code>create</code> 钩子。注意此时节点虽被创建但是还没有被插入 DOM 中，当然整个页面也还没有挂载。</p> <p><code>create</code> 意味着创建新的节点，所以会触发 <code>bind</code> 钩子函数：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// vm 是当前组件的实例</span>
+<span class="token keyword">const</span> vm <span class="token operator">=</span> vnode<span class="token punctuation">.</span>context <span class="token comment">// 组件实例</span>
+<span class="token keyword">const</span> dirs <span class="token operator">=</span> vm<span class="token punctuation">.</span>$options<span class="token punctuation">.</span>directives
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> dir <span class="token keyword">in</span> dirs<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">callHook</span><span class="token punctuation">(</span>dirs<span class="token punctuation">,</span> <span class="token string">'bind'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p><a href="https://cn.vuejs.org/v2/guide/custom-directive.html#%E9%92%A9%E5%AD%90%E5%87%BD%E6%95%B0" target="_blank" rel="noopener noreferrer">官方文档上<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>说：</p> <blockquote><p><code>inserted</code> 钩子函数在被绑定元素插入父节点时调用 (仅保证父节点存在，但不一定已被插入文档中)。</p></blockquote> <p><code>Vue</code> 内部的实现其实非常简单，在触发 <code>bind</code> 钩子函数后，给该 <code>VNode</code> 对象动态的添加 <code>insert</code> 钩子函数：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// vm 是当前组件的实例</span>
+<span class="token keyword">const</span> vm <span class="token operator">=</span> vnode<span class="token punctuation">.</span>context <span class="token comment">// 组件实例</span>
+<span class="token keyword">const</span> dirs <span class="token operator">=</span> vm<span class="token punctuation">.</span>$options<span class="token punctuation">.</span>directives
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> dir <span class="token keyword">in</span> dirs<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">callHook</span><span class="token punctuation">(</span>dirs<span class="token punctuation">,</span> <span class="token string">'bind'</span><span class="token punctuation">)</span>
+
+  <span class="token comment">// 新增代码</span>
+  vnode<span class="token punctuation">.</span><span class="token function-variable function">insert</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token function">callHook</span><span class="token punctuation">(</span>dirs<span class="token punctuation">,</span> <span class="token string">'inserted'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>那么在何时触发这个函数？和<a href="/learn-vue/mount-component.html#mounted-生命周期-insert">组件节点的挂载</a>以相同的方式处理即可。</p> <h3 id="update-update-componentupdated"><a href="#update-update-componentupdated" class="header-anchor">#</a> <code>update</code> - <code>update</code> &amp; <code>componentUpdated</code></h3> <p>在<a href="/learn-vue/mount-component.html#更新组件-prepatch">组件更新</a>时会调用 <code>VNode</code> 节点对象的 <code>prepatch</code> 钩子函数，实际上还有 <code>update</code> 和 <code>postpatch</code> 这两个钩子函数：</p> <ul><li><code>prepatch</code></li> <li><code>update</code></li> <li><code>postpatch</code></li></ul> <p>而 <code>update</code> 和 <code>postpatch</code> 就是组件更新时会调用的指令上的钩子函数，并且处理方式和 <code>create</code> 几乎类似：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// vm 是当前组件的实例</span>
+<span class="token keyword">const</span> vm <span class="token operator">=</span> vnode<span class="token punctuation">.</span>context <span class="token comment">// 组件实例</span>
+<span class="token keyword">const</span> dirs <span class="token operator">=</span> vm<span class="token punctuation">.</span>$options<span class="token punctuation">.</span>directives
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> dir <span class="token keyword">in</span> dirs<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">callHook</span><span class="token punctuation">(</span>dirs<span class="token punctuation">,</span> <span class="token string">'componentUpdated'</span><span class="token punctuation">)</span>
+
+  <span class="token comment">// 新增代码</span>
+  vnode<span class="token punctuation">.</span><span class="token function-variable function">postpatch</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token function">callHook</span><span class="token punctuation">(</span>dirs<span class="token punctuation">,</span> <span class="token string">'postpatch'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="destroy-unbind"><a href="#destroy-unbind" class="header-anchor">#</a> <code>destroy</code> - <code>unbind</code></h3> <p>在<a href="/learn-vue/mount-component.html#销毁组件-destroy">组件销毁</a>时会调用 <code>VNode</code> 节点对象的 <code>destroy</code> 钩子函数，而这个钩子函数中就会触发指令的 <code>unbind</code> 钩子函数：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// vm 是当前组件的实例</span>
+<span class="token keyword">const</span> vm <span class="token operator">=</span> vnode<span class="token punctuation">.</span>context <span class="token comment">// 组件实例</span>
+<span class="token keyword">const</span> dirs <span class="token operator">=</span> vm<span class="token punctuation">.</span>$options<span class="token punctuation">.</span>directives
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> dir <span class="token keyword">in</span> dirs<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">callHook</span><span class="token punctuation">(</span>dirs<span class="token punctuation">,</span> <span class="token string">'unbind'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="总结"><a href="#总结" class="header-anchor">#</a> 总结</h2> <p>总的来说，指令的原理其实是很简单的，它的本质就是<strong>在 <code>VNode</code> 对象的不同阶段，触发不同的回调函数</strong>。</p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/learn-vue/filter.html" class="prev">
+        filter 的本质
+      </a></span> <span class="next"><a href="/learn-vue/slot.html">
+        slot
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/learn-vue/assets/js/app.6e893172.js" defer></script><script src="/learn-vue/assets/js/2.169b38d7.js" defer></script><script src="/learn-vue/assets/js/11.97a01458.js" defer></script>
+  </body>
+</html>
